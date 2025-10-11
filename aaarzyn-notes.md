@@ -3,24 +3,24 @@
     - [X] need agent from, agent to, context sent, context received, handoff id
     - [X] add timestamp, task id, pipeline, etc.
     - [X] add eval scores as doc (figure out evaluation metrics)
-- [ ] mongodb connection for backend of metrics
-    - [ ] connect to database
-    - [ ] create contextscope handoffs collection
-    - [ ] create contextscope metrics section for results
+- [X] mongodb connection for backend of metrics
+    - [X] connect to database
+    - [X] create eval_handoffs collection (renamed from "handoffs")
+    - [X] create eval_pipelines collection (renamed from "pipeline_results")
 - [ ] create vector setup for embeddings
     - [ ] need to figure out the steps here
-- [ ] metrics calcs
-    - [ ] determine what calculations
-        - [ ] determine drift
-        - [ ] determine compression
+- [X] metrics calcs
+    - [X] determine what calculations
+        - [X] determine drift
+        - [X] determine compression
 - [ ] handoff logging 
-    - [ ] agent output as next input
+    - [X] agent output as next input
     - [ ] embeddings live
     - [ ] store immediately
 - [ ] metric computation trigger 
     - [ ] do with each hand off
     - [ ] update evals scores and eval dash
 
-- [ ] make agg pipeline
-- [ ] make summary stats
+- [X] make agg pipeline
+- [X] make summary stats
 
