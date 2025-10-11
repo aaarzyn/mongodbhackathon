@@ -116,6 +116,66 @@ class MongoDBClient:
             >>> movie = movies.find_one({"title": "Inception"})
         """
         return self.database[collection_name]
+    
+    @property
+    def movies(self) -> Collection:
+        """Get the movies collection (read-only sample data).
+        
+        Returns:
+            Movies collection from sample_mflix.
+            
+        Example:
+            >>> client = get_mongo_client()
+            >>> inception = client.movies.find_one({"title": "Inception"})
+        """
+        return self.get_collection("movies")
+    
+    @property
+    def handoffs(self) -> Collection:
+        """Get the handoffs collection.
+        
+        Returns:
+            Collection for storing HandoffEvaluation documents.
+            
+        Example:
+            >>> client = get_mongo_client()
+            >>> client.handoffs.insert_one(handoff_doc)
+        """
+        return self.get_collection("handoffs")
+    
+    @property
+    def pipeline_results(self) -> Collection:
+        """Get the pipeline_results collection.
+        
+        Returns:
+            Collection for storing PipelineEvaluation documents.
+            
+        Example:
+            >>> client = get_mongo_client()
+            >>> client.pipeline_results.insert_one(pipeline_doc)
+        """
+        return self.get_collection("pipeline_results")
+    
+    def ensure_indexes(self) -> None:
+        """Create indexes for ContextScope collections if they don't exist.
+        
+        This method is idempotent and safe to call multiple times.
+        Should be called during application startup.
+        """
+        logger.info("Ensuring indexes for ContextScope collections...")
+        
+        # Handoffs collection indexes
+        self.handoffs.create_index("handoff_id", unique=True)
+        self.handoffs.create_index("pipeline_id")
+        self.handoffs.create_index("task_id")
+        self.handoffs.create_index("timestamp")
+        self.handoffs.create_index([("agent_from", 1), ("agent_to", 1)])
+        
+        # Pipeline results collection indexes
+        self.pipeline_results.create_index("pipeline_id", unique=True)
+        self.pipeline_results.create_index("task_id")
+        
+        logger.info("Indexes created successfully")
 
     @contextmanager
     def get_database(self) -> Iterator[Database]:
@@ -193,4 +253,3 @@ def close_mongo_client() -> None:
     if _mongo_client is not None:
         _mongo_client.close()
         _mongo_client = None
-
