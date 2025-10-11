@@ -87,6 +87,27 @@ Completed Tasks
 Notes
 - Fireworks sample response was blank but call returned successfully (HTTP and parsing OK). Model/temperature limits likely returned minimal text.
 
+## 2025-10-11 - Ran Evals on Mflix Data
+
+Timestamp (UTC): 2025-10-11 20:42:50Z
+
+Summary
+- Created a Python venv, installed minimal deps, and executed `backend.agent_simulator` to generate and persist evaluation handoffs for two pipelines (JSON and Markdown) using live Mflix data. Verified documents in Mongo.
+
+Completed Tasks
+- Added INFO logs in `backend/agent_simulator.py` to print pipeline IDs.
+- Created `.venv` and installed: pydantic(+email), pydantic-settings, pymongo, python-dotenv, numpy.
+- Ran two pipelines; confirmed inserts:
+  - `eval_handoffs` count now > 0 (observed 12)
+  - `eval_pipelines` count now > 0 (observed 4)
+- Example recent pipeline IDs and scores:
+  - `json-681adb87`: avg_fidelity=1.0, avg_drift=0.0, total_compression=0.0, end_to_end_fidelity=1.0
+  - `md-6269e21a`: avg_fidelity=1.0, avg_drift=0.0, total_compression=0.0, end_to_end_fidelity=1.0
+
+Notes
+- Current demo contexts are identical across handoffs, yielding perfect fidelity and zero drift. We can introduce controlled perturbations or compression to produce more realistic scores if desired.
+
+
 
 
 ## 2024-10-11 - Initial Project Setup and MongoDB Atlas Connection
