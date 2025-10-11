@@ -1,7 +1,14 @@
 """Agent implementations for the recommendation pipeline."""
 
 from backend.agents.base import Agent, AgentContext, AgentOutput
+from backend.agents.content_analyzer import ContentAnalyzerAgent
 from backend.agents.user_profiler import UserProfilerAgent
 
-__all__ = ["Agent", "AgentContext", "AgentOutput", "UserProfilerAgent"]
+__all__ = [
+    "Agent",
+    "AgentContext",
+    "AgentOutput",
+    "ContentAnalyzerAgent",
+    "UserProfilerAgent",
+]
 
