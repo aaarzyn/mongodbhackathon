@@ -44,6 +44,22 @@ Notes
 - Token counts use a deterministic whitespace heuristic by default.
 
 
+## 2025-10-11 - Unit Tests for Evaluations
+
+Timestamp (UTC): 2025-10-11 20:31:20Z
+
+Summary
+- Added unit tests covering metrics, extraction, and schemas. Tests avoid network and DB dependencies.
+
+Completed Tasks
+- `tests/unit/test_metrics.py`: fidelity, drift, compression, temporal coherence, response utility, and `evaluate_handoff` tuple contract.
+- `tests/unit/test_extract.py`: JSON-key extraction and key-info preservation checks.
+- `tests/unit/test_schema.py`: score range validation, vector bundle validation, and minimal handoff model construction.
+
+Notes
+- Tests are offline and deterministic; they do not require pymongo installation.
+
+
 ## 2024-10-11 - Initial Project Setup and MongoDB Atlas Connection
 
 ### Summary
