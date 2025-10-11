@@ -1,7 +1,7 @@
 """Service layer for Mflix dataset operations."""
 
 import logging
-from typing import Optional
+from typing import Optional, Dict, Any
 
 from pymongo.collection import Collection
 from pymongo.errors import PyMongoError
@@ -67,6 +67,109 @@ class MflixService:
     def embedded_movies_collection(self) -> Collection:
         """Get the embedded_movies collection with plot embeddings."""
         return self.db["embedded_movies"]
+    
+    @property
+    def recommendations_collection(self) -> Collection:
+        """Get the recommendations collection for storing generated recommendations."""
+        return self.db["recommendations"]
+
+    def _clean_movie_data(self, movie_doc: Dict[str, Any]) -> Dict[str, Any]:
+        """Clean movie document data before validation.
+        
+        Ensures all fields have the correct types and handles None/missing values.
+        
+        Args:
+            movie_doc: Raw movie document from MongoDB
+            
+        Returns:
+            Cleaned movie data dictionary
+        """
+        # Ensure title is a string
+        if 'title' in movie_doc:
+            if movie_doc['title'] is None:
+                movie_doc['title'] = "Unknown"
+            else:
+                movie_doc['title'] = str(movie_doc['title'])
+        else:
+            movie_doc['title'] = "Unknown"
+        
+        # Ensure year is int or None
+        if 'year' in movie_doc and movie_doc['year'] is not None:
+            try:
+                movie_doc['year'] = int(movie_doc['year'])
+            except (ValueError, TypeError):
+                logger.warning(f"Invalid year value for movie {movie_doc.get('_id')}: {movie_doc['year']}")
+                movie_doc['year'] = None
+        
+        # Ensure runtime is int or None
+        if 'runtime' in movie_doc and movie_doc['runtime'] is not None:
+            try:
+                movie_doc['runtime'] = int(movie_doc['runtime'])
+            except (ValueError, TypeError):
+                logger.warning(f"Invalid runtime value for movie {movie_doc.get('_id')}: {movie_doc['runtime']}")
+                movie_doc['runtime'] = None
+        
+        # Ensure list fields are lists of strings
+        for field in ['genres', 'cast', 'directors']:
+            if field in movie_doc:
+                if movie_doc[field] is None:
+                    movie_doc[field] = []
+                elif not isinstance(movie_doc[field], list):
+                    movie_doc[field] = [str(movie_doc[field])]
+                else:
+                    movie_doc[field] = [str(item) for item in movie_doc[field] if item is not None]
+            else:
+                movie_doc[field] = []
+        
+        # Ensure plot is a string or None
+        if 'plot' in movie_doc and movie_doc['plot'] is not None:
+            movie_doc['plot'] = str(movie_doc['plot'])
+        
+        # Ensure rated is a string or None
+        if 'rated' in movie_doc and movie_doc['rated'] is not None:
+            movie_doc['rated'] = str(movie_doc['rated'])
+        
+        # Handle nested imdb fields
+        if 'imdb' in movie_doc and isinstance(movie_doc['imdb'], dict):
+            imdb = movie_doc['imdb']
+            
+            # Clean rating
+            if 'rating' in imdb and imdb['rating'] is not None:
+                try:
+                    imdb['rating'] = float(imdb['rating'])
+                except (ValueError, TypeError):
+                    logger.warning(f"Invalid IMDB rating for movie {movie_doc.get('_id')}: {imdb['rating']}")
+                    imdb['rating'] = None
+            
+            # Clean votes
+            if 'votes' in imdb and imdb['votes'] is not None:
+                try:
+                    imdb['votes'] = int(imdb['votes'])
+                except (ValueError, TypeError):
+                    logger.warning(f"Invalid IMDB votes for movie {movie_doc.get('_id')}: {imdb['votes']}")
+                    imdb['votes'] = None
+        
+        return movie_doc
+
+    def _create_movie_from_doc(self, movie_doc: Dict[str, Any]) -> Optional[Movie]:
+        """Create a Movie object from a MongoDB document.
+        
+        Args:
+            movie_doc: Raw movie document from MongoDB
+            
+        Returns:
+            Movie object or None if creation fails
+        """
+        try:
+            # Convert ObjectId to string
+            movie_doc = convert_objectid_to_str(movie_doc)
+            # Clean the data
+            movie_doc = self._clean_movie_data(movie_doc)
+            return Movie(**movie_doc)
+        except Exception as e:
+            logger.error(f"Failed to create Movie from document {movie_doc.get('_id')}: {e}")
+            logger.debug(f"Problematic document: {movie_doc}")
+            return None
 
     def get_user_by_id(self, user_id: str) -> Optional[User]:
         """Get a user by their ID.
@@ -155,8 +258,7 @@ class MflixService:
             
             movie_doc = self.movies_collection.find_one({"_id": search_id})
             if movie_doc:
-                movie_doc = convert_objectid_to_str(movie_doc)
-                return Movie(**movie_doc)
+                return self._create_movie_from_doc(movie_doc)
             return None
         except PyMongoError as e:
             raise MflixServiceError(f"Failed to get movie by ID: {str(e)}") from e
@@ -176,8 +278,7 @@ class MflixService:
         try:
             movie_doc = self.movies_collection.find_one({"title": title})
             if movie_doc:
-                movie_doc = convert_objectid_to_str(movie_doc)
-                return Movie(**movie_doc)
+                return self._create_movie_from_doc(movie_doc)
             return None
         except PyMongoError as e:
             raise MflixServiceError(f"Failed to get movie by title: {str(e)}") from e
@@ -201,7 +302,13 @@ class MflixService:
             cursor = self.movies_collection.find(
                 {"title": {"$regex": title_query, "$options": "i"}}
             ).limit(limit)
-            return [Movie(**convert_objectid_to_str(doc)) for doc in cursor]
+            
+            movies = []
+            for doc in cursor:
+                movie = self._create_movie_from_doc(doc)
+                if movie:
+                    movies.append(movie)
+            return movies
         except PyMongoError as e:
             raise MflixServiceError(
                 f"Failed to search movies by title: {str(e)}"
@@ -243,12 +350,16 @@ class MflixService:
                     "_id": {"$nin": list(embedded_ids)} if embedded_ids else {},
                 })
                 .sort("imdb.rating", -1)
-                .skip(0)  # Already skipped via embedded_movies
+                .skip(0)
                 .limit(remaining)
             )
-            regular_movies = [Movie(**convert_objectid_to_str(doc)) for doc in cursor]
             
-            return embedded_movies + regular_movies
+            for doc in cursor:
+                movie = self._create_movie_from_doc(doc)
+                if movie:
+                    embedded_movies.append(movie)
+            
+            return embedded_movies
             
         except PyMongoError as e:
             raise MflixServiceError(
@@ -276,7 +387,13 @@ class MflixService:
                 .sort("imdb.rating", -1)
                 .limit(limit)
             )
-            return [Movie(**convert_objectid_to_str(doc)) for doc in cursor]
+            
+            movies = []
+            for doc in cursor:
+                movie = self._create_movie_from_doc(doc)
+                if movie:
+                    movies.append(movie)
+            return movies
         except PyMongoError as e:
             raise MflixServiceError(
                 f"Failed to get movies by director: {str(e)}"
@@ -312,7 +429,13 @@ class MflixService:
                 .sort("imdb.rating", -1)
                 .limit(limit)
             )
-            return [Movie(**convert_objectid_to_str(doc)) for doc in cursor]
+            
+            movies = []
+            for doc in cursor:
+                movie = self._create_movie_from_doc(doc)
+                if movie:
+                    movies.append(movie)
+            return movies
         except PyMongoError as e:
             raise MflixServiceError(
                 f"Failed to get top rated movies: {str(e)}"
@@ -342,7 +465,13 @@ class MflixService:
                 .sort([("imdb.rating", -1), ("year", -1)])
                 .limit(limit)
             )
-            return [Movie(**convert_objectid_to_str(doc)) for doc in cursor]
+            
+            movies = []
+            for doc in cursor:
+                movie = self._create_movie_from_doc(doc)
+                if movie:
+                    movies.append(movie)
+            return movies
         except PyMongoError as e:
             raise MflixServiceError(
                 f"Failed to get movies by year range: {str(e)}"
@@ -440,10 +569,14 @@ class MflixService:
                 {"$limit": max(int(k), 1)},
             ]
             cursor = self.movies_collection.aggregate(pipeline)
-            movies = [Movie(**convert_objectid_to_str(doc)) for doc in cursor]
+            
+            movies = []
+            for doc in cursor:
+                movie = self._create_movie_from_doc(doc)
+                if movie:
+                    movies.append(movie)
+            
             if not include_self and movies and len(embedding) > 0:
-                # Heuristic: if the top result has identical title/year as the seed
-                # (common when using the movie's own embedding), drop it.
                 movies = movies
             return movies
         except PyMongoError as e:
@@ -467,7 +600,6 @@ class MflixService:
             MflixServiceError: If database operation fails.
         """
         try:
-            # Query embedded_movies collection
             cursor = (
                 self.embedded_movies_collection.find({
                     "genres": genre,
@@ -478,7 +610,13 @@ class MflixService:
                 .skip(skip)
                 .limit(limit)
             )
-            return [Movie(**convert_objectid_to_str(doc)) for doc in cursor]
+            
+            movies = []
+            for doc in cursor:
+                movie = self._create_movie_from_doc(doc)
+                if movie:
+                    movies.append(movie)
+            return movies
         except PyMongoError as e:
             raise MflixServiceError(
                 f"Failed to get embedded movies by genre: {str(e)}"
@@ -520,6 +658,80 @@ class MflixService:
                 f"Failed to get embedding stats: {str(e)}"
             ) from e
 
+    def save_recommendation(self, recommendation_data: dict) -> str:
+        """Save a recommendation to the database.
+        
+        Args:
+            recommendation_data: Recommendation data dictionary.
+            
+        Returns:
+            ID of the saved recommendation.
+            
+        Raises:
+            MflixServiceError: If database operation fails.
+        """
+        try:
+            result = self.recommendations_collection.insert_one(recommendation_data)
+            logger.info(
+                f"Saved recommendation for {recommendation_data.get('user_email')}: {result.inserted_id}"
+            )
+            return str(result.inserted_id)
+        except PyMongoError as e:
+            raise MflixServiceError(
+                f"Failed to save recommendation: {str(e)}"
+            ) from e
+    
+    def get_user_recommendations(
+        self, user_email: str, limit: int = 10
+    ) -> list[dict]:
+        """Get saved recommendations for a user.
+        
+        Args:
+            user_email: User's email address.
+            limit: Maximum number of recommendation sets to return.
+            
+        Returns:
+            List of saved recommendation documents.
+            
+        Raises:
+            MflixServiceError: If database operation fails.
+        """
+        try:
+            cursor = (
+                self.recommendations_collection.find({"user_email": user_email})
+                .sort("created_at", -1)
+                .limit(limit)
+            )
+            return [convert_objectid_to_str(doc) for doc in cursor]
+        except PyMongoError as e:
+            raise MflixServiceError(
+                f"Failed to get user recommendations: {str(e)}"
+            ) from e
+    
+    def get_all_recommendations(self, limit: int = 50) -> list[dict]:
+        """Get all saved recommendations.
+        
+        Args:
+            limit: Maximum number of recommendations to return.
+            
+        Returns:
+            List of saved recommendation documents.
+            
+        Raises:
+            MflixServiceError: If database operation fails.
+        """
+        try:
+            cursor = (
+                self.recommendations_collection.find()
+                .sort("created_at", -1)
+                .limit(limit)
+            )
+            return [convert_objectid_to_str(doc) for doc in cursor]
+        except PyMongoError as e:
+            raise MflixServiceError(
+                f"Failed to get all recommendations: {str(e)}"
+            ) from e
+
     def get_database_stats(self) -> dict:
         """Get statistics about the Mflix database.
         
@@ -538,9 +750,7 @@ class MflixService:
             # Count documents in each collection
             stats["collections"]["users"] = self.users_collection.count_documents({})
             stats["collections"]["movies"] = self.movies_collection.count_documents({})
-            stats["collections"]["comments"] = self.comments_collection.count_documents(
-                {}
-            )
+            stats["collections"]["comments"] = self.comments_collection.count_documents({})
 
             # Get sample movie stats
             pipeline = [
@@ -555,4 +765,3 @@ class MflixService:
             raise MflixServiceError(
                 f"Failed to get database stats: {str(e)}"
             ) from e
-

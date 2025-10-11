@@ -22,18 +22,16 @@ def clean_empty_values(value: Any) -> Any:
     if value == "":
         return None
     
-    # Handle corrupted integer strings (e.g., '1995è')
+    # Handle corrupted integer strings (e.g., '1995è' for year field)
+    # Only clean numeric fields, not titles like "10 Things I Hate About You"
     if isinstance(value, str):
-        # Try to extract valid integer if string looks like it should be an int
+        # Try to extract valid integer only if it looks like a corrupted year
+        # (4 digits followed by garbage characters)
         try:
-            # Check if it starts with digits
             import re
-            match = re.match(r'^(\d+)', value)
-            if match and len(match.group(1)) == len(value):
-                # It's a valid integer string, keep it
-                return value
-            elif match and len(match.group(1)) > 0:
-                # It has digits at start but garbage after, extract the int
+            match = re.match(r'^(\d{4})[\W\w]*$', value)
+            if match and len(value) > 4:
+                # Looks like a corrupted year (e.g., "1995è")
                 return int(match.group(1))
         except (ValueError, AttributeError):
             pass
@@ -86,10 +84,14 @@ def convert_objectid_to_str(document: Optional[Dict[str, Any]]) -> Optional[Dict
                 for item in value
             ]
         else:
-            # Special handling for known string fields that might be ints
-            if key in ['title', 'plot', 'fullplot'] and isinstance(value, int):
-                # Convert to string if it's supposed to be a string field
-                converted[key] = str(value)
+            # Special handling for known string fields
+            if key in ['title', 'plot', 'fullplot']:
+                # Don't clean these fields - keep them as-is or convert int to string
+                if isinstance(value, int):
+                    converted[key] = str(value)
+                else:
+                    # Keep string values unchanged (don't extract numbers from titles like "10 Things...")
+                    converted[key] = value if value != "" else None
             else:
                 converted[key] = clean_empty_values(value)
     return converted

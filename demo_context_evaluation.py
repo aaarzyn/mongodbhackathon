@@ -13,6 +13,7 @@ import sys
 import time
 from pathlib import Path
 from typing import Dict, Optional
+from datetime import datetime, timezone
 
 # Add the project root to Python path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -105,39 +106,22 @@ def evaluate_pipeline(
     evaluations = []
     
     # Helper function to get formatted context string
-    # Helper function to get formatted context string
     def get_formatted_context(context) -> str:
         """Get the formatted context string based on format type."""
         return context.to_string()
     
     # Handoff 1: User Profiler → Content Analyzer
     logger.info(f"\n[{format_name}] Evaluating: User Profiler → Content Analyzer...")
-    
-    context_sent_1 = get_formatted_context(profile_output.context)
-    context_received_1 = get_formatted_context(analysis_output.context)
-    
+
     eval_1 = judge_handoff_via_fireworks(
-        context_sent=context_sent_1,
-        context_received=context_received_1,
+        context_sent=get_formatted_context(profile_output.context),
+        context_received=get_formatted_context(analysis_output.context),
         temperature=0.0,
-        max_tokens=384
+        max_tokens=1024
     )
-    
-    # Handoff 1: User Profiler → Content Analyzer
-    logger.info(f"\n[{format_name}] Evaluating: User Profiler → Content Analyzer...")
-    
-    context_sent_1 = get_formatted_context(profile_output.context)
-    context_received_1 = get_formatted_context(analysis_output.context)
-    
-    eval_1 = judge_handoff_via_fireworks(
-        context_sent=context_sent_1,
-        context_received=context_received_1,
-        temperature=0.0,
-        max_tokens=384
-    )
-    
+
     time.sleep(2)
-    
+
     if eval_1:
         eval_1_record = {
             "from": "User Profiler",
@@ -150,21 +134,18 @@ def evaluate_pipeline(
         logger.info(f"  Fidelity: {eval_1.get('fidelity', 'N/A')}")
         logger.info(f"  Drift: {eval_1.get('drift', 'N/A')}")
         logger.info(f"  Preserved: {len(eval_1.get('preserved', []))} key facts")
-    
+
     # Handoff 2: Content Analyzer → Recommender
     logger.info(f"\n[{format_name}] Evaluating: Content Analyzer → Recommender...")
-    
-    context_sent_2 = get_formatted_context(analysis_output.context)
-    context_received_2 = get_formatted_context(recommendation_output.context)
-    
+
     eval_2 = judge_handoff_via_fireworks(
-        context_sent=context_sent_2,
-        context_received=context_received_2,
+        context_sent=get_formatted_context(analysis_output.context),
+        context_received=get_formatted_context(recommendation_output.context),
         temperature=0.0,
-        max_tokens=384
+        max_tokens=1024
     )
     time.sleep(2)
-    
+
     if eval_2:
         eval_2_record = {
             "from": "Content Analyzer",
@@ -177,21 +158,18 @@ def evaluate_pipeline(
         logger.info(f"  Fidelity: {eval_2.get('fidelity', 'N/A')}")
         logger.info(f"  Drift: {eval_2.get('drift', 'N/A')}")
         logger.info(f"  Preserved: {len(eval_2.get('preserved', []))} key facts")
-    
+
     # Handoff 3: Recommender → Explainer
     logger.info(f"\n[{format_name}] Evaluating: Recommender → Explainer...")
-    
-    context_sent_3 = get_formatted_context(recommendation_output.context)
-    context_received_3 = get_formatted_context(explanation_output.context)
-    
+
     eval_3 = judge_handoff_via_fireworks(
-        context_sent=context_sent_3,
-        context_received=context_received_3,
+        context_sent=get_formatted_context(recommendation_output.context),
+        context_received=get_formatted_context(explanation_output.context),
         temperature=0.0,
-        max_tokens=384
+        max_tokens=1024
     )
     time.sleep(2)
-    
+
     if eval_3:
         eval_3_record = {
             "from": "Recommender",
@@ -243,6 +221,7 @@ def evaluate_pipeline(
             for r in explanation_output.context.data.get("recommendations_with_explanations", [])
         ]
     }
+
 
 def generate_comparison_report(json_results: Dict, markdown_results: Dict) -> None:
     """Generate and display comparison report.
@@ -359,7 +338,7 @@ def generate_comparison_report(json_results: Dict, markdown_results: Dict) -> No
         
         logger.info(f"\n{handoff_name}")
         logger.info(f"  JSON:     Fidelity={json_fid:.3f}, Drift={json_handoff.get('drift', 0):.3f}, Tokens={json_handoff['tokens_sent']}")
-        logger.info(f"  Markdown: Fidelity={md_fid:.3f}, Drift={md_handoff.get('drift', 0):.3f}, Tokens={md_handoff['tokens_sent']}")
+        logger.info (f"  Markdown: Fidelity={md_fid:.3f}, Drift={md_handoff.get('drift', 0):.3f}, Tokens={md_handoff['tokens_sent']}")
         logger.info(f"  Difference: Fidelity={diff:+.3f}, Token savings={((json_handoff['tokens_sent'] - md_handoff['tokens_sent']) / json_handoff['tokens_sent'] * 100):.1f}%")
     
     # Key insights
@@ -413,32 +392,70 @@ def generate_comparison_report(json_results: Dict, markdown_results: Dict) -> No
     elif overlap < 3:
         logger.info("⚠ Low overlap suggests format significantly affects recommendations")
 
-def save_results(json_results: Dict, markdown_results: Dict, output_file: str = "reports/context_evaluation.json") -> None:
-    """Save evaluation results to file.
+
+def save_results_to_mongodb(
+    json_results: Dict, 
+    markdown_results: Dict, 
+    client: MongoDBClient
+) -> str:
+    """Save evaluation results to MongoDB.
     
     Args:
         json_results: JSON pipeline results.
         markdown_results: Markdown pipeline results.
-        output_file: Output file path.
+        client: MongoDB client instance.
+        
+    Returns:
+        Inserted document ID as string.
     """
-    # Ensure reports directory exists
-    Path(output_file).parent.mkdir(parents=True, exist_ok=True)
+    # Calculate comparison metrics
+    json_total_tokens = sum(h["tokens_sent"] for h in json_results["handoffs"])
+    md_total_tokens = sum(h["tokens_sent"] for h in markdown_results["handoffs"])
+    token_savings_pct = ((json_total_tokens - md_total_tokens) / json_total_tokens * 100) if json_total_tokens > 0 else 0
     
-    combined = {
-        "evaluation_timestamp": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
+    cost_per_million = 0.50
+    json_cost = (json_total_tokens / 1_000_000) * cost_per_million
+    md_cost = (md_total_tokens / 1_000_000) * cost_per_million
+    
+    # Prepare document
+    document = {
+        "evaluation_timestamp": datetime.now(timezone.utc),  # Fixed deprecation warning
+        "user_email": json_results["user_email"],
         "json_pipeline": json_results,
         "markdown_pipeline": markdown_results,
         "comparison": {
             "fidelity_improvement": json_results["summary"]["avg_fidelity"] - markdown_results["summary"]["avg_fidelity"],
-            "drift_difference": json_results["summary"]["avg_drift"] - markdown_results["summary"]["avg_drift"],  # Fixed typo
+            "drift_difference": json_results["summary"]["avg_drift"] - markdown_results["summary"]["avg_drift"],
             "quality_improvement": json_results["summary"]["end_to_end_quality"] - markdown_results["summary"]["end_to_end_quality"],
+            "token_savings_percent": round(token_savings_pct, 2),
+            "token_savings_absolute": json_total_tokens - md_total_tokens,
+            "cost_savings_dollars": round(json_cost - md_cost, 6),
+            "json_efficiency": round(json_results["summary"]["end_to_end_quality"] / (json_total_tokens / 1000), 3),
+            "markdown_efficiency": round(markdown_results["summary"]["end_to_end_quality"] / (md_total_tokens / 1000), 3),
+        },
+        "metadata": {
+            "evaluation_version": "1.0.0",
+            "max_candidates": 30,
+            "top_n_recommendations": 5,
         }
     }
     
-    with open(output_file, "w") as f:
-        json.dump(combined, f, indent=2)
-    
-    logger.info(f"\n✓ Results saved to {output_file}")
+    # Insert into MongoDB - Fixed the database access
+    try:
+        # Use the database property directly
+        db = client.database
+        collection = db["full_results"]
+        result = collection.insert_one(document)
+        
+        logger.info(f"\n✓ Results saved to MongoDB collection 'full_results'")
+        logger.info(f"  Document ID: {result.inserted_id}")
+        
+        return str(result.inserted_id)
+        
+    except Exception as e:
+        logger.error(f"✗ Failed to save to MongoDB: {e}")
+        raise
+
 
 def main() -> int:
     """Main entry point."""
@@ -491,11 +508,12 @@ def main() -> int:
         # Generate comparison report
         generate_comparison_report(json_results, markdown_results)
         
-        # Save results
-        save_results(json_results, markdown_results)
+        # Save results to MongoDB
+        doc_id = save_results_to_mongodb(json_results, markdown_results, client)
         
         print_header("EVALUATION COMPLETE")
         logger.info("\n✓ Context quality evaluation successful!")
+        logger.info(f"✓ Results stored in MongoDB (ID: {doc_id})")
         logger.info("✓ Ready for demo video recording")
         
         return 0

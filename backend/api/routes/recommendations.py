@@ -1,9 +1,9 @@
 """Recommendation API endpoints."""
 
 import logging
-from typing import Dict
+from typing import Dict, List
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 
 from backend.agents import (
     ContentAnalyzerAgent,
@@ -91,7 +91,14 @@ async def get_recommendations(email: str, top_n: int = 5) -> Dict:
             explanation_output.execution_time_ms
         )
         
-        return {
+        total_tokens = (
+            profile_output.context.tokens +
+            analysis_output.context.tokens +
+            recommendation_output.context.tokens +
+            explanation_output.context.tokens
+        )
+        
+        response_data = {
             "user": {
                 "name": user.name,
                 "email": user.email,
@@ -120,6 +127,42 @@ async def get_recommendations(email: str, top_n: int = 5) -> Dict:
                 },
             },
         }
+        
+        # Save to MongoDB
+        from datetime import datetime
+        saved_rec = {
+            "user_email": user.email,
+            "user_name": user.name,
+            "recommendations": explanation_output.context.data["recommendations_with_explanations"],
+            "pipeline_metrics": {
+                "total_execution_time_ms": total_time,
+                "user_profiler_time_ms": profile_output.execution_time_ms,
+                "content_analyzer_time_ms": analysis_output.execution_time_ms,
+                "recommender_time_ms": recommendation_output.execution_time_ms,
+                "explainer_time_ms": explanation_output.execution_time_ms,
+                "user_profiler_tokens": profile_output.context.tokens,
+                "content_analyzer_tokens": analysis_output.context.tokens,
+                "recommender_tokens": recommendation_output.context.tokens,
+                "explainer_tokens": explanation_output.context.tokens,
+                "total_tokens": total_tokens,
+                "candidates_analyzed": analysis_output.context.data["total_candidates_analyzed"],
+            },
+            "context_format": "json",
+            "created_at": datetime.utcnow(),
+            "user_profile_summary": {
+                "genre_affinities": profile_output.context.data.get("genre_affinities", [])[:5],
+                "director_preferences": profile_output.context.data.get("director_preferences", [])[:5],
+            },
+        }
+        
+        try:
+            rec_id = service.save_recommendation(saved_rec)
+            logger.info(f"Saved recommendation to MongoDB: {rec_id}")
+        except Exception as e:
+            logger.warning(f"Failed to save recommendation to DB: {e}")
+            # Don't fail the request if saving fails
+        
+        return response_data
         
     except HTTPException:
         raise

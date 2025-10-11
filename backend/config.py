@@ -37,7 +37,7 @@ class Settings(BaseSettings):
         default=None, description="Fireworks API key for judge model"
     )
     fireworks_model: str = Field(
-        default="accounts/fireworks/models/gpt-oss-20b",
+        default="accounts/fireworks/models/llama-v3p1-8b-instruct",
         description="Fireworks model identifier for judge",
     )
     fireworks_base_url: str = Field(
