@@ -202,14 +202,19 @@ class MflixService:
             skip: Number of movies to skip.
             
         Returns:
-            List of Movie objects.
+            List of Movie objects sorted by rating (only movies with ratings).
             
         Raises:
             MflixServiceError: If database operation fails.
         """
         try:
+            # Filter for movies with ratings to show quality content
             cursor = (
-                self.movies_collection.find({"genres": genre})
+                self.movies_collection.find({
+                    "genres": genre,
+                    "imdb.rating": {"$ne": None, "$exists": True},
+                    "imdb.votes": {"$gt": 100},  # At least 100 votes
+                })
                 .sort("imdb.rating", -1)
                 .skip(skip)
                 .limit(limit)
