@@ -6,23 +6,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.api.routes import movies, recommendations, users
-from backend.config import get_settings
-from backend.db.mongo_client import MongoDBClient, close_mongo_client
+from backend.api.dependencies import close_mongo_client, get_mongo_client
 
 logger = logging.getLogger(__name__)
-
-# Global client instance
-_mongo_client = None
-
-
-def get_mongo_client_instance() -> MongoDBClient:
-    """Get or create MongoDB client instance."""
-    global _mongo_client
-    if _mongo_client is None:
-        settings = get_settings()
-        _mongo_client = MongoDBClient(settings)
-    return _mongo_client
 
 
 @asynccontextmanager
@@ -31,7 +17,7 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting up application...")
     try:
-        client = get_mongo_client_instance()
+        client = get_mongo_client()
         logger.info("MongoDB connection established")
     except Exception as e:
         logger.error(f"Failed to connect to MongoDB: {e}")
@@ -62,6 +48,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Import routers after app is created to avoid circular imports
+from backend.api.routes import movies, recommendations, users
+
 # Include routers
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(movies.router, prefix="/api/movies", tags=["movies"])
@@ -82,7 +71,7 @@ async def root():
 async def health_check():
     """Health check endpoint."""
     try:
-        client = get_mongo_client_instance()
+        client = get_mongo_client()
         is_healthy = client.test_connection()
         return {
             "status": "healthy" if is_healthy else "unhealthy",
