@@ -14,19 +14,28 @@ export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    loadGenres();
-    loadMovies();
+    setMounted(true);
   }, []);
 
   useEffect(() => {
-    if (selectedGenre) {
-      loadMoviesByGenre(selectedGenre);
-    } else {
+    if (mounted) {
+      loadGenres();
       loadMovies();
     }
-  }, [selectedGenre]);
+  }, [mounted]);
+
+  useEffect(() => {
+    if (mounted) {
+      if (selectedGenre) {
+        loadMoviesByGenre(selectedGenre);
+      } else {
+        loadMovies();
+      }
+    }
+  }, [selectedGenre, mounted]);
 
   async function loadGenres() {
     try {
@@ -69,6 +78,18 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
+  }
+
+  // Don't render until mounted on client
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <p className="mt-4 text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -136,17 +157,32 @@ export default function Home() {
           </div>
         )}
 
-        {!loading && !error && (
+        {!loading && !error && movies.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-400 text-lg">No movies found</p>
+            <p className="text-gray-500 text-sm mt-2">Try selecting a different genre or check if the API is running</p>
+          </div>
+        )}
+
+        {!loading && !error && movies.length > 0 && (
           <>
             <h2 className="text-2xl font-bold mb-6">
               {selectedGenre ? `${selectedGenre} Movies` : 'Top Rated Movies'}
+              <span className="text-gray-400 text-lg ml-3">({movies.length} movies)</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {movies.map((movie, idx) => {
+                // Handle both nested and flat rating structure
                 const rating = movie.imdb?.rating || movie.imdb_rating;
+                
+                // Skip movies without essential data
+                if (!movie.title) {
+                  return null;
+                }
+                
                 return (
                   <div
-                    key={movie._id || movie.id || idx}
+                    key={movie._id || movie.id || `movie-${idx}`}
                     className="bg-gray-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-blue-500 transition"
                   >
                     <div className="p-4">
