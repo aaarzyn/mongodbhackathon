@@ -199,7 +199,7 @@ class MflixService:
     def get_movies_by_genre(
         self, genre: str, limit: int = 20, skip: int = 0
     ) -> list[Movie]:
-        """Get movies by genre.
+        """Get movies by genre, prioritizing movies with embeddings.
         
         Args:
             genre: Genre name (e.g., "Sci-Fi", "Drama").
@@ -207,24 +207,38 @@ class MflixService:
             skip: Number of movies to skip.
             
         Returns:
-            List of Movie objects sorted by rating (only movies with ratings).
+            List of Movie objects sorted by embedding availability, then rating.
             
         Raises:
             MflixServiceError: If database operation fails.
         """
         try:
-            # Filter for movies with ratings to show quality content
+            # First get embedded movies (they have embeddings)
+            embedded_movies = self.get_embedded_movies_by_genre(genre, limit=limit, skip=skip)
+            
+            # If we got enough movies, return them
+            if len(embedded_movies) >= limit:
+                return embedded_movies
+            
+            # Otherwise, supplement with movies from main collection
+            remaining = limit - len(embedded_movies)
+            embedded_ids = {m.id for m in embedded_movies if m.id}
+            
             cursor = (
                 self.movies_collection.find({
                     "genres": genre,
                     "imdb.rating": {"$ne": None, "$exists": True},
-                    "imdb.votes": {"$gt": 100},  # At least 100 votes
+                    "imdb.votes": {"$gt": 100},
+                    "_id": {"$nin": list(embedded_ids)} if embedded_ids else {},
                 })
                 .sort("imdb.rating", -1)
-                .skip(skip)
-                .limit(limit)
+                .skip(0)  # Already skipped via embedded_movies
+                .limit(remaining)
             )
-            return [Movie(**convert_objectid_to_str(doc)) for doc in cursor]
+            regular_movies = [Movie(**convert_objectid_to_str(doc)) for doc in cursor]
+            
+            return embedded_movies + regular_movies
+            
         except PyMongoError as e:
             raise MflixServiceError(
                 f"Failed to get movies by genre: {str(e)}"

@@ -15,6 +15,9 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
   const [isClient, setIsClient] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const moviesPerPage = 24;
 
   // Ensure we're only running on the client
   useEffect(() => {
@@ -31,10 +34,12 @@ export default function Home() {
   useEffect(() => {
     if (!isClient) return;
     
+    // Reset to page 1 when genre changes
+    setPage(1);
     if (selectedGenre) {
-      loadMoviesByGenre(selectedGenre);
+      loadMoviesByGenre(selectedGenre, 0);
     } else {
-      loadMovies();
+      loadMovies(0);
     }
   }, [selectedGenre, isClient]);
 
@@ -47,14 +52,15 @@ export default function Home() {
     }
   }
 
-  async function loadMovies() {
+  async function loadMovies(skip: number = 0) {
     try {
       setLoading(true);
       setError('');
-      console.log('Loading top-rated movies...');
-      const data = await getTopRatedMovies(24);
+      console.log('Loading top-rated movies, skip:', skip);
+      const data = await getTopRatedMovies(moviesPerPage);
       console.log('Received movies:', data.length);
-      setMovies(data);
+      setMovies(prev => skip === 0 ? data : [...prev, ...data]);
+      setHasMore(data.length === moviesPerPage);
     } catch (err: any) {
       const errorMsg = err?.message || 'Failed to load movies. Make sure the API is running on port 8000.';
       setError(errorMsg);
@@ -64,20 +70,32 @@ export default function Home() {
     }
   }
 
-  async function loadMoviesByGenre(genre: string) {
+  async function loadMoviesByGenre(genre: string, skip: number = 0) {
     try {
       setLoading(true);
       setError('');
-      console.log('Loading movies for genre:', genre);
-      const data = await getMovies({ genre, limit: 24 });
+      console.log('Loading movies for genre:', genre, 'skip:', skip);
+      const data = await getMovies({ genre, limit: moviesPerPage, skip });
       console.log('Received movies:', data.length);
-      setMovies(data);
+      setMovies(prev => skip === 0 ? data : [...prev, ...data]);
+      setHasMore(data.length === moviesPerPage);
     } catch (err: any) {
       const errorMsg = err?.message || `Failed to load ${genre} movies. Make sure the API is running.`;
       setError(errorMsg);
       console.error('loadMoviesByGenre error:', err);
     } finally {
       setLoading(false);
+    }
+  }
+
+  function loadMore() {
+    const skip = page * moviesPerPage;
+    setPage(prev => prev + 1);
+    
+    if (selectedGenre) {
+      loadMoviesByGenre(selectedGenre, skip);
+    } else {
+      loadMovies(skip);
     }
   }
 
@@ -229,6 +247,18 @@ export default function Home() {
                 );
               })}
             </div>
+            
+            {/* Load More Button */}
+            {hasMore && !loading && !error && (
+              <div className="mt-8 text-center">
+                <button
+                  onClick={loadMore}
+                  className="bg-gray-700 hover:bg-gray-600 px-8 py-3 rounded-lg font-semibold transition"
+                >
+                  Load More Movies
+                </button>
+              </div>
+            )}
           </>
         )}
       </main>
