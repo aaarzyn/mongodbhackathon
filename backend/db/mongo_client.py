@@ -131,30 +131,31 @@ class MongoDBClient:
         return self.get_collection("movies")
     
     @property
-    def handoffs(self) -> Collection:
-        """Get the handoffs collection.
+    def eval_handoffs(self) -> Collection:
+        """Get the eval_handoffs collection.
         
         Returns:
             Collection for storing HandoffEvaluation documents.
-            
-        Example:
-            >>> client = get_mongo_client()
-            >>> client.handoffs.insert_one(handoff_doc)
         """
-        return self.get_collection("handoffs")
+        return self.get_collection("eval_handoffs")
     
     @property
-    def pipeline_results(self) -> Collection:
-        """Get the pipeline_results collection.
+    def eval_pipelines(self) -> Collection:
+        """Get the eval_pipelines collection.
         
         Returns:
             Collection for storing PipelineEvaluation documents.
-            
-        Example:
-            >>> client = get_mongo_client()
-            >>> client.pipeline_results.insert_one(pipeline_doc)
         """
-        return self.get_collection("pipeline_results")
+        return self.get_collection("eval_pipelines")
+    
+    # Back-compat deprecated accessors (map to canonical collections)
+    @property
+    def handoffs(self) -> Collection:  # deprecated
+        return self.eval_handoffs
+    
+    @property
+    def pipeline_results(self) -> Collection:  # deprecated
+        return self.eval_pipelines
     
     def ensure_indexes(self) -> None:
         """Create indexes for ContextScope collections if they don't exist.
@@ -164,16 +165,16 @@ class MongoDBClient:
         """
         logger.info("Ensuring indexes for ContextScope collections...")
         
-        # Handoffs collection indexes
-        self.handoffs.create_index("handoff_id", unique=True)
-        self.handoffs.create_index("pipeline_id")
-        self.handoffs.create_index("task_id")
-        self.handoffs.create_index("timestamp")
-        self.handoffs.create_index([("agent_from", 1), ("agent_to", 1)])
+        # eval_handoffs collection indexes
+        self.eval_handoffs.create_index("handoff_id", unique=True)
+        self.eval_handoffs.create_index("pipeline_id")
+        self.eval_handoffs.create_index("task_id")
+        self.eval_handoffs.create_index("timestamp")
+        self.eval_handoffs.create_index([("agent_from", 1), ("agent_to", 1)])
         
-        # Pipeline results collection indexes
-        self.pipeline_results.create_index("pipeline_id", unique=True)
-        self.pipeline_results.create_index("task_id")
+        # eval_pipelines collection indexes
+        self.eval_pipelines.create_index("pipeline_id", unique=True)
+        self.eval_pipelines.create_index("task_id")
         
         logger.info("Indexes created successfully")
 
