@@ -107,6 +107,25 @@ Completed Tasks
 Notes
 - Current demo contexts are identical across handoffs, yielding perfect fidelity and zero drift. We can introduce controlled perturbations or compression to produce more realistic scores if desired.
 
+## 2025-10-11 - Batch Evals with Fireworks Judge
+
+Timestamp (UTC): 2025-10-11 20:51:53Z
+
+Summary
+- Added a batch mode to the simulator and executed 10 pipeline pairs (JSON + Markdown), with Fireworks-based judging per handoff to drive visible model consumption.
+
+Completed Tasks
+- `backend/agent_simulator.py`: Added `--batch N` flag; varied user/movie selection to diversify contexts; ensured `use_llm_judge=True` for all handoffs.
+- Ran `--batch 10` in `.venv` successfully. Inserted additional evals and rollups.
+- Post-run DB snapshot:
+  - `eval_handoffs` count: 138
+  - `eval_pipelines` count: 46
+  - Recent examples: `json-b9-1b144c`, `md-b9-4985f6` (perfect fidelity/drift given current synthetic contexts).
+
+Notes
+- Scores remain perfect due to intentionally identical context propagation; next iteration can add loss/compression/noise to reflect realistic drift and compression effects.
+
+
 
 
 

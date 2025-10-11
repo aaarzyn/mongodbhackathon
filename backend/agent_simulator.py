@@ -11,6 +11,7 @@ import json
 import logging
 import uuid
 from typing import Dict, List, Tuple
+import argparse
 
 from backend.db.mongo_client import get_mongo_client
 from backend.evaluator.service import EvaluatorService
@@ -19,10 +20,10 @@ from backend.services.mflix_service import MflixService
 logger = logging.getLogger(__name__)
 
 
-def _pick_user_and_movies(service: MflixService) -> Tuple[Dict, List[Dict]]:
-    users = service.list_users(limit=1)
+def _pick_user_and_movies(service: MflixService, *, user_skip: int = 0, movie_skip: int = 0) -> Tuple[Dict, List[Dict]]:
+    users = service.list_users(limit=1, skip=user_skip)
     user = users[0] if users else None
-    movies = service.get_movies_by_genre("Sci-Fi", limit=3)
+    movies = service.get_movies_by_genre("Sci-Fi", limit=3, skip=movie_skip)
     # Convert to simple dicts for templating
     user_d = user.model_dump(by_alias=True) if user else {
         "_id": "unknown",
@@ -169,6 +170,7 @@ def run_demo_evals() -> None:
             context_sent=sent,
             context_received=recv,
             metadata=meta,
+            use_llm_judge=True,
         )
     summary_json = evaluator.finalize_pipeline(pipeline_id_json)
     logger.info("JSON pipeline rollup: %s", summary_json.overall_pipeline_score.model_dump())
@@ -186,6 +188,7 @@ def run_demo_evals() -> None:
             context_sent=sent,
             context_received=recv,
             metadata=meta,
+            use_llm_judge=True,
         )
     summary_md = evaluator.finalize_pipeline(pipeline_id_md)
     logger.info("Markdown pipeline rollup: %s", summary_md.overall_pipeline_score.model_dump())
@@ -193,4 +196,58 @@ def run_demo_evals() -> None:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    run_demo_evals()
+    parser = argparse.ArgumentParser(description="Run evaluation pipelines on Mflix data")
+    parser.add_argument("--batch", type=int, default=0, help="Number of pipeline pairs (JSON+MD) to run")
+    args = parser.parse_args()
+
+    if args.batch and args.batch > 0:
+        client = get_mongo_client()
+        service = MflixService(client)
+        evaluator = EvaluatorService(client)
+
+        for i in range(args.batch):
+            # Vary user/movie selection to diversify contexts
+            user, movies = _pick_user_and_movies(service, user_skip=i % 20, movie_skip=i % 50)
+
+            # JSON pipeline
+            pipeline_id_json = f"json-b{i}-{uuid.uuid4().hex[:6]}"
+            logger.info("Running JSON pipeline: %s", pipeline_id_json)
+            json_handoffs = _build_json_pipeline_contexts(user, movies)
+            agents = [
+                ("User Profiler", "Content Analyzer"),
+                ("Content Analyzer", "Recommender"),
+                ("Recommender", "Explainer"),
+            ]
+            for idx, ((sent, recv, meta), (a_from, a_to)) in enumerate(zip(json_handoffs, agents), start=1):
+                evaluator.evaluate_and_store_handoff(
+                    pipeline_id=pipeline_id_json,
+                    handoff_id=f"{pipeline_id_json}-h{idx}",
+                    agent_from=a_from,
+                    agent_to=a_to,
+                    context_sent=sent,
+                    context_received=recv,
+                    metadata=meta,
+                    use_llm_judge=True,
+                )
+            summary_json = evaluator.finalize_pipeline(pipeline_id_json)
+            logger.info("JSON pipeline rollup: %s", summary_json.overall_pipeline_score.model_dump())
+
+            # Markdown pipeline
+            pipeline_id_md = f"md-b{i}-{uuid.uuid4().hex[:6]}"
+            logger.info("Running Markdown pipeline: %s", pipeline_id_md)
+            md_handoffs = _build_markdown_pipeline_contexts(user, movies)
+            for idx, ((sent, recv, meta), (a_from, a_to)) in enumerate(zip(md_handoffs, agents), start=1):
+                evaluator.evaluate_and_store_handoff(
+                    pipeline_id=pipeline_id_md,
+                    handoff_id=f"{pipeline_id_md}-h{idx}",
+                    agent_from=a_from,
+                    agent_to=a_to,
+                    context_sent=sent,
+                    context_received=recv,
+                    metadata=meta,
+                    use_llm_judge=True,
+                )
+            summary_md = evaluator.finalize_pipeline(pipeline_id_md)
+            logger.info("Markdown pipeline rollup: %s", summary_md.overall_pipeline_score.model_dump())
+    else:
+        run_demo_evals()

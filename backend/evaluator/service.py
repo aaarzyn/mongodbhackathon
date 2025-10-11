@@ -18,6 +18,8 @@ from backend.db.aggregation import (
     upsert_pipeline_rollup,
 )
 from backend.evaluator.extract import compute_key_info_preserved
+from backend.evaluator.judge import judge_handoff_via_fireworks
+from backend.config import get_settings
 from backend.evaluator.metrics import evaluate_handoff
 from backend.evaluator.schema import EvalScores, HandoffEvaluation, PipelineEvaluation
 
@@ -57,6 +59,7 @@ class EvaluatorService:
         sent_vec: Optional[Sequence[float]] = None,
         received_vec: Optional[Sequence[float]] = None,
         metadata: Optional[Dict[str, Any]] = None,
+        use_llm_judge: bool = True,
     ) -> HandoffEvaluation:
         """Compute metrics for a handoff and persist the document."""
         tb = tokens_before if tokens_before is not None else _count_tokens(context_sent)
@@ -71,11 +74,26 @@ class EvaluatorService:
             received_vec=received_vec,
         )
 
-        key_preserved = compute_key_info_preserved(context_sent, context_received)
+        # LLM-based judgment (Fireworks) to augment/override heuristic metrics
+        llm_fidelity: Optional[float] = None
+        llm_drift: Optional[float] = None
+        llm_preserved: Optional[list[str]] = None
+        if use_llm_judge:
+            j = judge_handoff_via_fireworks(
+                context_sent=context_sent, context_received=context_received
+            )
+            if j:
+                llm_fidelity = j.get("fidelity")
+                llm_drift = j.get("drift")
+                llm_preserved = j.get("preserved") or None
+
+        key_preserved = (
+            llm_preserved if llm_preserved is not None else compute_key_info_preserved(context_sent, context_received)
+        )
 
         scores = EvalScores(
-            fidelity=fidelity,
-            drift=drift,
+            fidelity=llm_fidelity if llm_fidelity is not None else fidelity,
+            drift=llm_drift if llm_drift is not None else drift,
             compression=compression,
             temporal_coherence=temporal,
             response_utility=None,
@@ -112,4 +130,3 @@ class EvaluatorService:
         except AggregationError as e:
             raise EvaluatorServiceError(str(e)) from e
         return summary
-
