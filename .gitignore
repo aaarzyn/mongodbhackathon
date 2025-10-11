@@ -68,3 +68,4 @@ data/
 *.json
 !package.json
 !tsconfig.json
+WARP.md
