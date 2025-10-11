@@ -72,6 +72,21 @@ Completed Tasks
 Notes
 - Tests do not perform any network or DB connections and avoid touching `MongoDBClient` initialization.
 
+## 2025-10-11 - Live Fireworks and MongoDB Checks
+
+Timestamp (UTC): 2025-10-11 20:38:23Z
+
+Summary
+- Verified Fireworks GPT-OSS-20b chat completion and MongoDB Atlas connectivity using values from .env. Fixed config to accept alternate Mongo env vars via validation alias.
+
+Completed Tasks
+- Ran a live Fireworks chat call via `backend/providers/fireworks.py` (OpenAI-compatible endpoint). Call succeeded.
+- Connected to MongoDB Atlas using `MongoDBClient` and confirmed ping and collection listing.
+- Updated `backend/config.py` to use `validation_alias` for `mongo_uri` (supports `MONGO_URI`, `MONGO_CONNECTION_STRING`, `MONGODB_URI`).
+
+Notes
+- Fireworks sample response was blank but call returned successfully (HTTP and parsing OK). Model/temperature limits likely returned minimal text.
+
 
 
 ## 2024-10-11 - Initial Project Setup and MongoDB Atlas Connection

@@ -10,7 +10,7 @@ from functools import lru_cache
 from typing import Optional
 
 import os
-from pydantic import Field, field_validator
+from pydantic import Field, field_validator, AliasChoices
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -18,7 +18,11 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
     # MongoDB Configuration
-    mongo_uri: str = Field(..., description="MongoDB Atlas connection string")
+    mongo_uri: Optional[str] = Field(
+        default=None,
+        description="MongoDB Atlas connection string",
+        validation_alias=AliasChoices("MONGO_URI", "MONGO_CONNECTION_STRING", "MONGODB_URI"),
+    )
     mongo_database: str = Field(
         default="sample_mflix", description="Database name to use"
     )
@@ -74,14 +78,9 @@ class Settings(BaseSettings):
     # Provide a post-init hook to accept alternate env var names for Mongo
     # connection strings (e.g., MONGO_CONNECTION_STRING, MONGODB_URI).
     def model_post_init(self, __context: object) -> None:  # type: ignore[override]
+        # Ensure final presence
         if not getattr(self, "mongo_uri", None):
-            alt = (
-                os.getenv("MONGO_CONNECTION_STRING")
-                or os.getenv("MONGODB_URI")
-                or os.getenv("MONGO_URI")
-            )
-            if alt:
-                object.__setattr__(self, "mongo_uri", alt)
+            raise ValueError("mongo_uri is required (MONGO_URI or MONGO_CONNECTION_STRING)")
 
 
 @lru_cache()
