@@ -14,28 +14,29 @@ export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
-  const [mounted, setMounted] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
+  // Ensure we're only running on the client
   useEffect(() => {
-    setMounted(true);
+    setIsClient(true);
   }, []);
 
   useEffect(() => {
-    if (mounted) {
-      loadGenres();
-      loadMovies();
-    }
-  }, [mounted]);
+    if (!isClient) return;
+    
+    loadGenres();
+    loadMovies();
+  }, [isClient]);
 
   useEffect(() => {
-    if (mounted) {
-      if (selectedGenre) {
-        loadMoviesByGenre(selectedGenre);
-      } else {
-        loadMovies();
-      }
+    if (!isClient) return;
+    
+    if (selectedGenre) {
+      loadMoviesByGenre(selectedGenre);
+    } else {
+      loadMovies();
     }
-  }, [selectedGenre, mounted]);
+  }, [selectedGenre, isClient]);
 
   async function loadGenres() {
     try {
@@ -80,8 +81,8 @@ export default function Home() {
     }
   }
 
-  // Don't render until mounted on client
-  if (!mounted) {
+  // Don't render until we're on the client
+  if (!isClient) {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
         <div className="text-center">
