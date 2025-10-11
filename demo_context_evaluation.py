@@ -292,6 +292,60 @@ def generate_comparison_report(json_results: Dict, markdown_results: Dict) -> No
     
     logger.info("-" * 70)
     
+    # Token efficiency comparison
+    logger.info("\n" + "=" * 70)
+    logger.info("TOKEN EFFICIENCY COMPARISON")
+    logger.info("=" * 70)
+    
+    # Calculate total tokens for each pipeline
+    json_total_tokens = sum(h["tokens_sent"] for h in json_results["handoffs"])
+    md_total_tokens = sum(h["tokens_sent"] for h in markdown_results["handoffs"])
+    token_savings = ((json_total_tokens - md_total_tokens) / json_total_tokens) * 100
+    
+    logger.info(f"\n{'Stage':<30} {'JSON Tokens':<15} {'Markdown Tokens':<15} {'Savings':<15}")
+    logger.info("-" * 70)
+    
+    for json_h, md_h in zip(json_results["handoffs"], markdown_results["handoffs"]):
+        stage = f"{json_h['from']} →"
+        json_tokens = json_h["tokens_sent"]
+        md_tokens = md_h["tokens_sent"]
+        savings = ((json_tokens - md_tokens) / json_tokens * 100) if json_tokens > 0 else 0
+        
+        logger.info(
+            f"{stage:<30} "
+            f"{json_tokens:<15} "
+            f"{md_tokens:<15} "
+            f"{savings:>6.1f}%"
+        )
+    
+    logger.info("-" * 70)
+    logger.info(
+        f"{'TOTAL':<30} "
+        f"{json_total_tokens:<15} "
+        f"{md_total_tokens:<15} "
+        f"{token_savings:>6.1f}%"
+    )
+    
+    # Cost estimation (assuming ~$0.50 per 1M tokens for input)
+    cost_per_million = 0.50
+    json_cost = (json_total_tokens / 1_000_000) * cost_per_million
+    md_cost = (md_total_tokens / 1_000_000) * cost_per_million
+    cost_savings = json_cost - md_cost
+    
+    logger.info(f"\n{'Estimated Cost Comparison:':<30}")
+    logger.info(f"  JSON format:     ${json_cost:.4f}")
+    logger.info(f"  Markdown format: ${md_cost:.4f}")
+    logger.info(f"  Cost savings:    ${cost_savings:.4f} ({token_savings:.1f}%)")
+    
+    # Efficiency score: quality per token
+    json_efficiency = json_summary["end_to_end_quality"] / (json_total_tokens / 1000)
+    md_efficiency = md_summary["end_to_end_quality"] / (md_total_tokens / 1000)
+    
+    logger.info(f"\n{'Efficiency (Quality/1K tokens):':<30}")
+    logger.info(f"  JSON format:     {json_efficiency:.3f}")
+    logger.info(f"  Markdown format: {md_efficiency:.3f}")
+    logger.info(f"  Improvement:     {((md_efficiency / json_efficiency - 1) * 100):+.1f}%")
+    
     # Per-handoff comparison
     logger.info("\n" + "=" * 70)
     logger.info("PER-HANDOFF FIDELITY COMPARISON")
@@ -304,25 +358,36 @@ def generate_comparison_report(json_results: Dict, markdown_results: Dict) -> No
         diff = json_fid - md_fid
         
         logger.info(f"\n{handoff_name}")
-        logger.info(f"  JSON Fidelity:     {json_fid:.3f}")
-        logger.info(f"  Markdown Fidelity: {md_fid:.3f}")
-        logger.info(f"  Difference:        {diff:+.3f}")
+        logger.info(f"  JSON:     Fidelity={json_fid:.3f}, Drift={json_handoff.get('drift', 0):.3f}, Tokens={json_handoff['tokens_sent']}")
+        logger.info(f"  Markdown: Fidelity={md_fid:.3f}, Drift={md_handoff.get('drift', 0):.3f}, Tokens={md_handoff['tokens_sent']}")
+        logger.info(f"  Difference: Fidelity={diff:+.3f}, Token savings={((json_handoff['tokens_sent'] - md_handoff['tokens_sent']) / json_handoff['tokens_sent'] * 100):.1f}%")
     
     # Key insights
     print_header("KEY INSIGHTS")
     
+    if token_savings > 50:
+        logger.info(f"\n🎯 EFFICIENCY WINNER: Markdown saves {token_savings:.1f}% tokens!")
+    
     if quality_diff > 0.1:
-        logger.info(f"\n✓ JSON format preserves {quality_diff*100:.1f}% more information end-to-end")
+        logger.info(f"🎯 QUALITY WINNER: JSON preserves {quality_diff*100:.1f}% more information")
     elif quality_diff < -0.1:
-        logger.info(f"\n⚠ Markdown format preserves {abs(quality_diff)*100:.1f}% more information end-to-end")
+        logger.info(f"🎯 QUALITY WINNER: Markdown preserves {abs(quality_diff)*100:.1f}% more information")
     else:
-        logger.info(f"\n≈ Both formats perform similarly (within 10% difference)")
+        logger.info(f"⚖️  Quality is similar (within 10% difference)")
     
-    if fidelity_diff > 0.15:
-        logger.info(f"✓ JSON shows significantly better fidelity ({fidelity_diff*100:.1f}% higher)")
+    if md_efficiency > json_efficiency * 1.5:
+        logger.info(f"⚡ Markdown is {((md_efficiency / json_efficiency - 1) * 100):.0f}% more efficient (quality per token)")
+    elif json_efficiency > md_efficiency * 1.5:
+        logger.info(f"⚡ JSON is {((json_efficiency / md_efficiency - 1) * 100):.0f}% more efficient (quality per token)")
     
-    if drift_diff < -0.15:
-        logger.info(f"⚠ JSON shows higher drift ({abs(drift_diff)*100:.1f}% more semantic deviation)")
+    # The real value proposition
+    logger.info(f"\n💡 VALUE PROPOSITION:")
+    if token_savings > 30 and abs(quality_diff) < 0.15:
+        logger.info(f"   Markdown achieves similar quality with {token_savings:.0f}% fewer tokens")
+        logger.info(f"   This translates to {token_savings:.0f}% lower costs and faster processing")
+    elif quality_diff > 0.15:
+        logger.info(f"   JSON provides {quality_diff*100:.0f}% better information preservation")
+        logger.info(f"   Trade-off: {token_savings:.0f}% higher token usage")
     
     # Recommendation quality comparison
     logger.info(f"\n" + "=" * 70)
@@ -343,9 +408,10 @@ def generate_comparison_report(json_results: Dict, markdown_results: Dict) -> No
     overlap = len(json_titles & md_titles)
     
     logger.info(f"\nRecommendation Overlap: {overlap}/5 movies")
-    if overlap < 3:
-        logger.info("⚠ Low overlap suggests format affects recommendation quality")
-
+    if overlap >= 4:
+        logger.info("✓ High overlap - both formats produce similar recommendations")
+    elif overlap < 3:
+        logger.info("⚠ Low overlap suggests format significantly affects recommendations")
 
 def save_results(json_results: Dict, markdown_results: Dict, output_file: str = "reports/context_evaluation.json") -> None:
     """Save evaluation results to file.
