@@ -1,8 +1,8 @@
 - [X] test playground of information retrieval for testing
-- [ ] agent to agent schema
-    - [ ] need agent from, agent to, context sent, context received, handoff id
-    - [ ] add timestamp, task id, pipeline, etc.
-    - [ ] add eval scores as doc (figure out evaluation metrics)
+- [X] agent to agent schema
+    - [X] need agent from, agent to, context sent, context received, handoff id
+    - [X] add timestamp, task id, pipeline, etc.
+    - [X] add eval scores as doc (figure out evaluation metrics)
 - [ ] mongodb connection for backend of metrics
     - [ ] connect to database
     - [ ] create contextscope handoffs collection
