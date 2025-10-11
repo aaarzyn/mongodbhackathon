@@ -1,8 +1,15 @@
-"""Application configuration management using Pydantic settings."""
+"""Application configuration management using Pydantic settings.
+
+Supports multiple env var names for Mongo connection strings:
+- MONGO_URI (preferred)
+- MONGO_CONNECTION_STRING (fallback)
+- MONGODB_URI (fallback)
+"""
 
 from functools import lru_cache
 from typing import Optional
 
+import os
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -63,6 +70,18 @@ class Settings(BaseSettings):
         if v_upper not in valid_levels:
             raise ValueError(f"log_level must be one of {valid_levels}")
         return v_upper
+
+    # Provide a post-init hook to accept alternate env var names for Mongo
+    # connection strings (e.g., MONGO_CONNECTION_STRING, MONGODB_URI).
+    def model_post_init(self, __context: object) -> None:  # type: ignore[override]
+        if not getattr(self, "mongo_uri", None):
+            alt = (
+                os.getenv("MONGO_CONNECTION_STRING")
+                or os.getenv("MONGODB_URI")
+                or os.getenv("MONGO_URI")
+            )
+            if alt:
+                object.__setattr__(self, "mongo_uri", alt)
 
 
 @lru_cache()

@@ -59,6 +59,20 @@ Completed Tasks
 Notes
 - Tests are offline and deterministic; they do not require pymongo installation.
 
+## 2025-10-11 - Config Env Var Tests
+
+Timestamp (UTC): 2025-10-11 20:35:13Z
+
+Summary
+- Added tests to validate environment-based configuration for Fireworks and Mongo connection string.
+
+Completed Tasks
+- `tests/unit/test_env_config.py`: Ensures `Settings` reads `FIREWORKS_API_KEY` and falls back to `MONGO_CONNECTION_STRING` when `MONGO_URI` is absent; verifies `FireworksJudge.available()` reflects API key presence.
+
+Notes
+- Tests do not perform any network or DB connections and avoid touching `MongoDBClient` initialization.
+
+
 
 ## 2024-10-11 - Initial Project Setup and MongoDB Atlas Connection
 
