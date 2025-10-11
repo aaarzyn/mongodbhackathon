@@ -15,5 +15,6 @@ MongoDB Atlas, used clusters, added to existing data
 Voyager AI for embeddings and retrieval work
 
 # Partner Technologies Used
-Modelence for temporary set up (ended up transitioning away from the UI)
+Modelence for original set up (ended up transitioning away from the UI)
 Fireworks (for responses)
+Warp (for coding)
