@@ -1,0 +1,26 @@
+- [X] test playground of information retrieval for testing
+- [ ] agent to agent schema
+    - [ ] need agent from, agent to, context sent, context received, handoff id
+    - [ ] add timestamp, task id, pipeline, etc.
+    - [ ] add eval scores as doc (figure out evaluation metrics)
+- [ ] mongodb connection for backend of metrics
+    - [ ] connect to database
+    - [ ] create contextscope handoffs collection
+    - [ ] create contextscope metrics section for results
+- [ ] create vector setup for embeddings
+    - [ ] need to figure out the steps here
+- [ ] metrics calcs
+    - [ ] determine what calculations
+        - [ ] determine drift
+        - [ ] determine compression
+- [ ] handoff logging 
+    - [ ] agent output as next input
+    - [ ] embeddings live
+    - [ ] store immediately
+- [ ] metric computation trigger 
+    - [ ] do with each hand off
+    - [ ] update evals scores and eval dash
+
+- [ ] make agg pipeline
+- [ ] make summary stats
+
