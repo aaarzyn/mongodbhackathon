@@ -1,9 +1,9 @@
 """Movie models for the Mflix dataset."""
 
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Union
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class IMDbInfo(BaseModel):
@@ -42,7 +42,15 @@ class TomatoesInfo(BaseModel):
     )
     rotten: Optional[int] = Field(default=None, description="Rotten tomatoes count")
     fresh: Optional[int] = Field(default=None, description="Fresh tomatoes count")
-    production: Optional[str] = Field(default=None, description="Production company")
+    production: Optional[Union[str, int]] = Field(default=None, description="Production company")
+    
+    @field_validator('production')
+    @classmethod
+    def convert_production_to_str(cls, v):
+        """Convert production to string if it's an int (data quality issue)."""
+        if v is not None and isinstance(v, int):
+            return str(v)
+        return v
 
 
 class Movie(BaseModel):
