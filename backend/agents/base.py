@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, Optional
+import json
 
 from pydantic import BaseModel, Field
 
@@ -47,6 +48,57 @@ class AgentContext(BaseModel):
                 "metadata": {"model": "granite-4.0"},
             }
         }
+
+    def to_string(self) -> str:
+        """Convert context data to formatted string based on format type.
+        
+        Returns:
+            Formatted string representation of the context data.
+        """
+        if self.format == ContextFormat.JSON:
+            return json.dumps(self.data, indent=2)
+        elif self.format == ContextFormat.MARKDOWN:
+            return self._to_markdown()
+        else:
+            return str(self.data)
+    
+    def _to_markdown(self) -> str:
+        """Convert context data to markdown format.
+        
+        Returns:
+            Markdown formatted string.
+        """
+        lines = [f"# {self.agent_name} Context\n"]
+        
+        def format_value(value: Any, indent: int = 0) -> str:
+            """Recursively format values to markdown."""
+            prefix = "  " * indent
+            
+            if isinstance(value, dict):
+                result = []
+                for k, v in value.items():
+                    if isinstance(v, (dict, list)):
+                        result.append(f"{prefix}- **{k}**:")
+                        result.append(format_value(v, indent + 1))
+                    else:
+                        result.append(f"{prefix}- **{k}**: {v}")
+                return "\n".join(result)
+            elif isinstance(value, list):
+                result = []
+                for item in value:
+                    if isinstance(item, dict):
+                        result.append(format_value(item, indent))
+                    else:
+                        result.append(f"{prefix}- {item}")
+                return "\n".join(result)
+            else:
+                return f"{prefix}{value}"
+        
+        for key, value in self.data.items():
+            lines.append(f"\n## {key.replace('_', ' ').title()}\n")
+            lines.append(format_value(value))
+        
+        return "\n".join(lines)
 
 
 class AgentOutput(BaseModel):
@@ -137,4 +189,3 @@ class Agent(ABC):
             Estimated token count.
         """
         return len(text) // 4
-

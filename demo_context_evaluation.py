@@ -11,7 +11,11 @@ import json
 import logging
 import sys
 import time
-from typing import Dict, List, Optional
+from pathlib import Path
+from typing import Dict, Optional
+
+# Add the project root to Python path
+sys.path.insert(0, str(Path(__file__).parent))
 
 from backend.agents import (
     ContentAnalyzerAgent,
@@ -22,8 +26,8 @@ from backend.agents import (
 from backend.agents.base import ContextFormat
 from backend.config import get_settings
 from backend.db.mongo_client import MongoDBClient
-from backend.evaluator.judge import judge_handoff_via_fireworks
 from backend.services.mflix_service import MflixService
+from backend.evaluator.judge import judge_handoff_via_fireworks
 
 # Configure logging
 logging.basicConfig(
@@ -100,14 +104,39 @@ def evaluate_pipeline(
     
     evaluations = []
     
+    # Helper function to get formatted context string
+    # Helper function to get formatted context string
+    def get_formatted_context(context) -> str:
+        """Get the formatted context string based on format type."""
+        return context.to_string()
+    
     # Handoff 1: User Profiler → Content Analyzer
     logger.info(f"\n[{format_name}] Evaluating: User Profiler → Content Analyzer...")
+    
+    context_sent_1 = get_formatted_context(profile_output.context)
+    context_received_1 = get_formatted_context(analysis_output.context)
+    
     eval_1 = judge_handoff_via_fireworks(
-        context_sent=json.dumps(profile_output.context.data, indent=2),
-        context_received=json.dumps(analysis_output.context.data, indent=2),
+        context_sent=context_sent_1,
+        context_received=context_received_1,
         temperature=0.0,
         max_tokens=384
     )
+    
+    # Handoff 1: User Profiler → Content Analyzer
+    logger.info(f"\n[{format_name}] Evaluating: User Profiler → Content Analyzer...")
+    
+    context_sent_1 = get_formatted_context(profile_output.context)
+    context_received_1 = get_formatted_context(analysis_output.context)
+    
+    eval_1 = judge_handoff_via_fireworks(
+        context_sent=context_sent_1,
+        context_received=context_received_1,
+        temperature=0.0,
+        max_tokens=384
+    )
+    
+    time.sleep(2)
     
     if eval_1:
         eval_1_record = {
@@ -124,12 +153,17 @@ def evaluate_pipeline(
     
     # Handoff 2: Content Analyzer → Recommender
     logger.info(f"\n[{format_name}] Evaluating: Content Analyzer → Recommender...")
+    
+    context_sent_2 = get_formatted_context(analysis_output.context)
+    context_received_2 = get_formatted_context(recommendation_output.context)
+    
     eval_2 = judge_handoff_via_fireworks(
-        context_sent=json.dumps(analysis_output.context.data, indent=2),
-        context_received=json.dumps(recommendation_output.context.data, indent=2),
+        context_sent=context_sent_2,
+        context_received=context_received_2,
         temperature=0.0,
         max_tokens=384
     )
+    time.sleep(2)
     
     if eval_2:
         eval_2_record = {
@@ -146,12 +180,17 @@ def evaluate_pipeline(
     
     # Handoff 3: Recommender → Explainer
     logger.info(f"\n[{format_name}] Evaluating: Recommender → Explainer...")
+    
+    context_sent_3 = get_formatted_context(recommendation_output.context)
+    context_received_3 = get_formatted_context(explanation_output.context)
+    
     eval_3 = judge_handoff_via_fireworks(
-        context_sent=json.dumps(recommendation_output.context.data, indent=2),
-        context_received=json.dumps(explanation_output.context.data, indent=2),
+        context_sent=context_sent_3,
+        context_received=context_received_3,
         temperature=0.0,
         max_tokens=384
     )
+    time.sleep(2)
     
     if eval_3:
         eval_3_record = {
@@ -175,7 +214,7 @@ def evaluate_pipeline(
         avg_drift = sum(drifts) / len(drifts) if drifts else 0
         
         # End-to-end quality: fidelity weighted by inverse drift
-        e2e_quality = avg_fidelity * (1 - avg_drift) if (avg_fidelity and avg_drift) else avg_fidelity
+        e2e_quality = avg_fidelity * (1 - avg_drift) if (avg_fidelity and avg_drift is not None) else avg_fidelity
     else:
         avg_fidelity = 0
         avg_drift = 0
@@ -204,7 +243,6 @@ def evaluate_pipeline(
             for r in explanation_output.context.data.get("recommendations_with_explanations", [])
         ]
     }
-
 
 def generate_comparison_report(json_results: Dict, markdown_results: Dict) -> None:
     """Generate and display comparison report.
@@ -317,13 +355,16 @@ def save_results(json_results: Dict, markdown_results: Dict, output_file: str = 
         markdown_results: Markdown pipeline results.
         output_file: Output file path.
     """
+    # Ensure reports directory exists
+    Path(output_file).parent.mkdir(parents=True, exist_ok=True)
+    
     combined = {
         "evaluation_timestamp": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
         "json_pipeline": json_results,
         "markdown_pipeline": markdown_results,
         "comparison": {
             "fidelity_improvement": json_results["summary"]["avg_fidelity"] - markdown_results["summary"]["avg_fidelity"],
-            "drift _difference": json_results["summary"]["avg_drift"] - markdown_results["summary"]["avg_drift"],
+            "drift_difference": json_results["summary"]["avg_drift"] - markdown_results["summary"]["avg_drift"],  # Fixed typo
             "quality_improvement": json_results["summary"]["end_to_end_quality"] - markdown_results["summary"]["end_to_end_quality"],
         }
     }
@@ -332,7 +373,6 @@ def save_results(json_results: Dict, markdown_results: Dict, output_file: str = 
         json.dump(combined, f, indent=2)
     
     logger.info(f"\n✓ Results saved to {output_file}")
-
 
 def main() -> int:
     """Main entry point."""
