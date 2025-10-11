@@ -7,6 +7,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getTopRatedMovies, getGenres, getMovies, type Movie } from '@/lib/api';
+import EmbeddingModal from '@/components/EmbeddingModal';
 
 export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -17,6 +18,7 @@ export default function Home() {
   const [isClient, setIsClient] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const moviesPerPage = 24;
 
   // Ensure we're only running on the client
@@ -205,11 +207,16 @@ export default function Home() {
                 return (
                   <div
                     key={movie._id || movie.id || `movie-${idx}`}
-                    className="bg-gray-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-blue-500 transition relative"
+                    className={`bg-gray-800 rounded-lg overflow-hidden hover:ring-2 transition relative ${
+                      movie.plot_embedding_available 
+                        ? 'hover:ring-blue-500 cursor-pointer' 
+                        : 'hover:ring-gray-600'
+                    }`}
+                    onClick={() => movie.plot_embedding_available && setSelectedMovie(movie)}
                   >
                     {/* Embedding Badge */}
                     {movie.plot_embedding_available && (
-                      <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                      <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-semibold hover:bg-blue-500 transition">
                         🧠 AI
                       </div>
                     )}
@@ -237,8 +244,9 @@ export default function Home() {
                           </p>
                         )}
                         {movie.plot_embedding_available && (
-                          <p className="text-blue-400 text-xs mt-2">
+                          <p className="text-blue-400 text-xs mt-2 flex items-center gap-1">
                             ✓ Has AI embeddings
+                            <span className="text-gray-500">• Click for details</span>
                           </p>
                         )}
                       </div>
@@ -262,6 +270,12 @@ export default function Home() {
           </>
         )}
       </main>
+
+      {/* Embedding Modal */}
+      <EmbeddingModal 
+        movie={selectedMovie} 
+        onClose={() => setSelectedMovie(null)} 
+      />
     </div>
   );
 }
