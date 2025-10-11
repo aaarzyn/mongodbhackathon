@@ -8,8 +8,14 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { getRecommendations, type RecommendationsResponse } from '@/lib/api';
 
+const SAMPLE_USERS = [
+  { name: 'Ned Stark', email: 'sean_bean@gameofthron.es' },
+  { name: 'Robert Baratheon', email: 'mark_addy@gameofthron.es' },
+  { name: 'Daenerys Targaryen', email: 'emilia_clarke@gameofthron.es' },
+];
+
 export default function RecommendationsPage() {
-  const [email, setEmail] = useState('sean_bean@gameofthron.es');
+  const [email, setEmail] = useState('mark_addy@gameofthron.es');
   const [recommendations, setRecommendations] = useState<RecommendationsResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>('');
@@ -55,9 +61,27 @@ export default function RecommendationsPage() {
 
         {/* User Input */}
         <div className="bg-gray-800 rounded-lg p-6 mb-8">
-          <label htmlFor="email" className="block text-sm font-medium mb-2">
-            Enter User Email
+          <label htmlFor="email" className="block text-sm font-medium mb-4">
+            Select a User or Enter Email
           </label>
+          
+          {/* Quick Select Users */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {SAMPLE_USERS.map((user) => (
+              <button
+                key={user.email}
+                onClick={() => setEmail(user.email)}
+                className={`px-4 py-2 rounded-lg transition ${
+                  email === user.email
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-700 hover:bg-gray-600'
+                }`}
+              >
+                {user.name}
+              </button>
+            ))}
+          </div>
+
           <div className="flex gap-4">
             <input
               id="email"
@@ -77,7 +101,7 @@ export default function RecommendationsPage() {
             </button>
           </div>
           <p className="text-sm text-gray-400 mt-2">
-            Try: sean_bean@gameofthron.es
+            Each user gets personalized recommendations based on their viewing history
           </p>
         </div>
 

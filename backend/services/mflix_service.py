@@ -129,11 +129,11 @@ class MflixService:
         except PyMongoError as e:
             raise MflixServiceError(f"Failed to list users: {str(e)}") from e
 
-    def get_movie_by_id(self, movie_id: str) -> Optional[Movie]:
+    def get_movie_by_id(self, movie_id) -> Optional[Movie]:
         """Get a movie by its ID.
         
         Args:
-            movie_id: Movie ID (MongoDB ObjectId as string).
+            movie_id: Movie ID (MongoDB ObjectId or string).
             
         Returns:
             Movie object if found, None otherwise.
@@ -142,7 +142,18 @@ class MflixService:
             MflixServiceError: If database operation fails.
         """
         try:
-            movie_doc = self.movies_collection.find_one({"_id": movie_id})
+            from bson import ObjectId
+            
+            # Handle both ObjectId and string
+            if isinstance(movie_id, str):
+                try:
+                    search_id = ObjectId(movie_id)
+                except:
+                    search_id = movie_id
+            else:
+                search_id = movie_id
+            
+            movie_doc = self.movies_collection.find_one({"_id": search_id})
             if movie_doc:
                 movie_doc = convert_objectid_to_str(movie_doc)
                 return Movie(**movie_doc)
