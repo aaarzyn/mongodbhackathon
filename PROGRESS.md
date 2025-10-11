@@ -1,5 +1,29 @@
 # ContextScope Eval - Development Progress
 
+## 2025-10-11 - Evaluation Schema and Metrics
+
+Timestamp (UTC): 2025-10-11 20:19:36Z
+
+Summary
+- Added evaluation data models and metric utilities focused solely on ContextScope evaluations per PROJECT.md.
+
+Completed Tasks
+- Implemented `backend/evaluator/schema.py` with Pydantic models:
+  - `VectorBundle`, `EvalScores`, `HandoffEvaluation`, `PipelineScore`, `PipelineEvaluation`.
+  - Added `EvaluationSchemaError` with validation for embeddings and normalized score ranges.
+- Implemented `backend/evaluator/metrics.py` with core metrics:
+  - `compute_fidelity` (embeddings cosine or TF fallback),
+  - `compute_relevance_drift` (blend of 1-fidelity and top-term divergence),
+  - `compute_compression_efficiency`,
+  - `compute_temporal_coherence` (date/year preservation),
+  - `compute_response_utility` (relative/absolute),
+  - `evaluate_handoff` helper for streamlined scoring.
+- All functions include type hints, docstrings, and specific exceptions.
+
+Notes
+- Designed to operate without network access by accepting precomputed vectors and using lightweight text fallbacks.
+- Ready to be wired into agent pipeline and MongoDB persistence for eval runs.
+
 ## 2024-10-11 - Initial Project Setup and MongoDB Atlas Connection
 
 ### Summary
@@ -136,4 +160,3 @@ mongodbhackathon/
 - Sample Mflix dataset fully loaded and accessible
 - Ready to begin building the agent pipeline
 - All foundational infrastructure in place
-
