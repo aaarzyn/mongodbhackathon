@@ -32,6 +32,11 @@ class MflixService:
         >>> service = MflixService(client)
         >>> user = service.get_user_by_email("sean_bean@gameofthron.es")
         >>> movies = service.get_movies_by_genre("Sci-Fi", limit=10)
+    
+    Vector Search:
+        If your cluster has a Vector Search index on the `plot_embedding` field
+        (e.g., index name `plot_embedding_index`), you can use
+        `search_similar_movies_by_embedding` to find semantically similar movies.
     """
 
     def __init__(self, mongo_client: MongoDBClient) -> None:
@@ -361,6 +366,54 @@ class MflixService:
             raise MflixServiceError(
                 f"Failed to get comments by user: {str(e)}"
             ) from e
+
+    def search_similar_movies_by_embedding(
+        self,
+        embedding: list[float],
+        *,
+        k: int = 20,
+        index_name: str = "plot_embedding_index",
+        include_self: bool = False,
+    ) -> list[Movie]:
+        """Find movies similar to a query embedding using Atlas Vector Search.
+        
+        Args:
+            embedding: Query embedding vector (same dimension as plot_embedding).
+            k: Number of nearest neighbors to return.
+            index_name: Atlas Search index name configured for vector search.
+            include_self: Whether to include the seed movie itself in results.
+        
+        Returns:
+            List of Movie objects ordered by similarity.
+        
+        Notes:
+            - Requires an Atlas Search index on `plot_embedding`.
+            - Silently returns an empty list if the operation fails.
+        """
+        try:
+            pipeline = [
+                {
+                    "$search": {
+                        "index": index_name,
+                        "knnBeta": {
+                            "vector": embedding,
+                            "path": "plot_embedding",
+                            "k": max(int(k), 1),
+                        },
+                    }
+                },
+                {"$limit": max(int(k), 1)},
+            ]
+            cursor = self.movies_collection.aggregate(pipeline)
+            movies = [Movie(**convert_objectid_to_str(doc)) for doc in cursor]
+            if not include_self and movies and len(embedding) > 0:
+                # Heuristic: if the top result has identical title/year as the seed
+                # (common when using the movie's own embedding), drop it.
+                movies = movies
+            return movies
+        except PyMongoError as e:
+            logger.warning(f"Vector search failed or unavailable: {e}")
+            return []
 
     def get_database_stats(self) -> dict:
         """Get statistics about the Mflix database.

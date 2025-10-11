@@ -84,7 +84,7 @@ class ContentAnalyzerAgent(Agent):
                 "total_candidates_analyzed": len(candidates),
                 "top_candidates_count": len(top_candidates),
                 "candidate_movies": top_candidates,
-                "matching_strategy": "hybrid_genre_director_rating",
+                "matching_strategy": "hybrid_genre_director_rating_vector",
             }
             
             # Create context based on format
@@ -152,7 +152,24 @@ class ContentAnalyzerAgent(Agent):
                         candidates.append(movie)
                         seen_ids.add(movie.id)
         
-        # Strategy 3: Get top-rated movies as fallback
+        # Strategy 3: Vector Search using a seed movie's plot embedding (if available)
+        try:
+            watch_history = user_profile.get("watch_history", [])
+            seed_movie_id = watch_history[0]["movie_id"] if watch_history else None
+            if seed_movie_id:
+                seed_movie = self.service.get_movie_by_id(seed_movie_id)
+                if seed_movie and getattr(seed_movie, "plot_embedding", None):
+                    similar = self.service.search_similar_movies_by_embedding(
+                        seed_movie.plot_embedding or [], k=30, index_name="plot_embedding_index"
+                    )
+                    for movie in similar:
+                        if movie.id not in seen_ids:
+                            candidates.append(movie)
+                            seen_ids.add(movie.id)
+        except Exception as e:
+            logger.debug(f"Vector search skipped/unavailable: {e}")
+
+        # Strategy 4: Get top-rated movies as fallback
         if len(candidates) < 20:
             top_rated = self.service.get_top_rated_movies(limit=30, min_rating=7.5)
             for movie in top_rated:
