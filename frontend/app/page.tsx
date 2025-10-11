@@ -40,12 +40,15 @@ export default function Home() {
   async function loadMovies() {
     try {
       setLoading(true);
-      const data = await getTopRatedMovies(24);
-      setMovies(data);
       setError('');
-    } catch (err) {
-      setError('Failed to load movies');
-      console.error(err);
+      console.log('Loading top-rated movies...');
+      const data = await getTopRatedMovies(24);
+      console.log('Received movies:', data.length);
+      setMovies(data);
+    } catch (err: any) {
+      const errorMsg = err?.message || 'Failed to load movies. Make sure the API is running on port 8000.';
+      setError(errorMsg);
+      console.error('loadMovies error:', err);
     } finally {
       setLoading(false);
     }
@@ -54,12 +57,15 @@ export default function Home() {
   async function loadMoviesByGenre(genre: string) {
     try {
       setLoading(true);
-      const data = await getMovies({ genre, limit: 24 });
-      setMovies(data);
       setError('');
-    } catch (err) {
-      setError('Failed to load movies');
-      console.error(err);
+      console.log('Loading movies for genre:', genre);
+      const data = await getMovies({ genre, limit: 24 });
+      console.log('Received movies:', data.length);
+      setMovies(data);
+    } catch (err: any) {
+      const errorMsg = err?.message || `Failed to load ${genre} movies. Make sure the API is running.`;
+      setError(errorMsg);
+      console.error('loadMoviesByGenre error:', err);
     } finally {
       setLoading(false);
     }
