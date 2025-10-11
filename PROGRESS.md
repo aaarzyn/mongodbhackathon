@@ -1,5 +1,149 @@
 # ContextScope Eval - Development Progress
 
+## 2025-10-11 - Evaluation Schema and Metrics
+
+Timestamp (UTC): 2025-10-11 20:19:36Z
+
+Summary
+- Added evaluation data models and metric utilities focused solely on ContextScope evaluations per PROJECT.md.
+
+Completed Tasks
+- Implemented `backend/evaluator/schema.py` with Pydantic models:
+  - `VectorBundle`, `EvalScores`, `HandoffEvaluation`, `PipelineScore`, `PipelineEvaluation`.
+  - Added `EvaluationSchemaError` with validation for embeddings and normalized score ranges.
+- Implemented `backend/evaluator/metrics.py` with core metrics:
+  - `compute_fidelity` (embeddings cosine or TF fallback),
+  - `compute_relevance_drift` (blend of 1-fidelity and top-term divergence),
+  - `compute_compression_efficiency`,
+  - `compute_temporal_coherence` (date/year preservation),
+  - `compute_response_utility` (relative/absolute),
+  - `evaluate_handoff` helper for streamlined scoring.
+- All functions include type hints, docstrings, and specific exceptions.
+
+Notes
+- Designed to operate without network access by accepting precomputed vectors and using lightweight text fallbacks.
+- Ready to be wired into agent pipeline and MongoDB persistence for eval runs.
+
+## 2025-10-11 - Judge Provider, Aggregations, and Eval Service
+
+Timestamp (UTC): 2025-10-11 20:25:16Z
+
+Summary
+- Added Fireworks judge provider stub, aggregation and persistence utilities, deterministic key-info extraction, and a high-level evaluator service.
+
+Completed Tasks
+- Provider: `backend/providers/fireworks.py` with OpenAI-compatible chat call using `FIREWORKS_API_KEY` and default model `gpt-oss-20b`.
+- Aggregations: `backend/db/aggregation.py` with insert/get helpers, rollup by format, and pipeline rollup using geometric mean for end-to-end fidelity.
+- Extraction: `backend/evaluator/extract.py` for deterministic key unit extraction from JSON/text and preservation checks.
+- Service: `backend/evaluator/service.py` to compute metrics, extract key info, and persist handoff and pipeline evaluations.
+- Config: Added Fireworks fields to `backend/config.py`.
+
+Notes
+- Chosen collections: `eval_handoffs`, `eval_pipelines`.
+- `HandoffEvaluation` now includes optional `pipeline_id` for grouping.
+- Token counts use a deterministic whitespace heuristic by default.
+
+
+## 2025-10-11 - Unit Tests for Evaluations
+
+Timestamp (UTC): 2025-10-11 20:31:20Z
+
+Summary
+- Added unit tests covering metrics, extraction, and schemas. Tests avoid network and DB dependencies.
+
+Completed Tasks
+- `tests/unit/test_metrics.py`: fidelity, drift, compression, temporal coherence, response utility, and `evaluate_handoff` tuple contract.
+- `tests/unit/test_extract.py`: JSON-key extraction and key-info preservation checks.
+- `tests/unit/test_schema.py`: score range validation, vector bundle validation, and minimal handoff model construction.
+
+Notes
+- Tests are offline and deterministic; they do not require pymongo installation.
+
+## 2025-10-11 - Config Env Var Tests
+
+Timestamp (UTC): 2025-10-11 20:35:13Z
+
+Summary
+- Added tests to validate environment-based configuration for Fireworks and Mongo connection string.
+
+Completed Tasks
+- `tests/unit/test_env_config.py`: Ensures `Settings` reads `FIREWORKS_API_KEY` and falls back to `MONGO_CONNECTION_STRING` when `MONGO_URI` is absent; verifies `FireworksJudge.available()` reflects API key presence.
+
+Notes
+- Tests do not perform any network or DB connections and avoid touching `MongoDBClient` initialization.
+
+## 2025-10-11 - Live Fireworks and MongoDB Checks
+
+Timestamp (UTC): 2025-10-11 20:38:23Z
+
+Summary
+- Verified Fireworks GPT-OSS-20b chat completion and MongoDB Atlas connectivity using values from .env. Fixed config to accept alternate Mongo env vars via validation alias.
+
+Completed Tasks
+- Ran a live Fireworks chat call via `backend/providers/fireworks.py` (OpenAI-compatible endpoint). Call succeeded.
+- Connected to MongoDB Atlas using `MongoDBClient` and confirmed ping and collection listing.
+- Updated `backend/config.py` to use `validation_alias` for `mongo_uri` (supports `MONGO_URI`, `MONGO_CONNECTION_STRING`, `MONGODB_URI`).
+
+Notes
+- Fireworks sample response was blank but call returned successfully (HTTP and parsing OK). Model/temperature limits likely returned minimal text.
+
+## 2025-10-11 - Ran Evals on Mflix Data
+
+Timestamp (UTC): 2025-10-11 20:42:50Z
+
+Summary
+- Created a Python venv, installed minimal deps, and executed `backend.agent_simulator` to generate and persist evaluation handoffs for two pipelines (JSON and Markdown) using live Mflix data. Verified documents in Mongo.
+
+Completed Tasks
+- Added INFO logs in `backend/agent_simulator.py` to print pipeline IDs.
+- Created `.venv` and installed: pydantic(+email), pydantic-settings, pymongo, python-dotenv, numpy.
+- Ran two pipelines; confirmed inserts:
+  - `eval_handoffs` count now > 0 (observed 12)
+  - `eval_pipelines` count now > 0 (observed 4)
+- Example recent pipeline IDs and scores:
+  - `json-681adb87`: avg_fidelity=1.0, avg_drift=0.0, total_compression=0.0, end_to_end_fidelity=1.0
+  - `md-6269e21a`: avg_fidelity=1.0, avg_drift=0.0, total_compression=0.0, end_to_end_fidelity=1.0
+
+Notes
+- Current demo contexts are identical across handoffs, yielding perfect fidelity and zero drift. We can introduce controlled perturbations or compression to produce more realistic scores if desired.
+
+## 2025-10-11 - Batch Evals with Fireworks Judge
+
+## 2025-10-11 - HTML Report and Firefox Open
+
+Timestamp (UTC): 2025-10-11 20:55:18Z
+
+Summary
+- Generated a human-readable HTML report of the latest 20 pipelines and opened it in Firefox.
+
+Completed Tasks
+- Added `scripts/generate_eval_report.py` to render tables with scores, preserved key info, and collapsible context snippets.
+- Ran `python -m backend.agent_simulator --batch 10` to create fresh data and then generated `reports/eval_report.html`.
+- Opened the report via `open -a "Firefox" reports/eval_report.html`.
+
+Notes
+- Fireworks calls intermittently returned HTTP 403 (code 1010); those handoffs fell back to heuristic scores, but the report renders all records consistently.
+
+Timestamp (UTC): 2025-10-11 20:51:53Z
+
+Summary
+- Added a batch mode to the simulator and executed 10 pipeline pairs (JSON + Markdown), with Fireworks-based judging per handoff to drive visible model consumption.
+
+Completed Tasks
+- `backend/agent_simulator.py`: Added `--batch N` flag; varied user/movie selection to diversify contexts; ensured `use_llm_judge=True` for all handoffs.
+- Ran `--batch 10` in `.venv` successfully. Inserted additional evals and rollups.
+- Post-run DB snapshot:
+  - `eval_handoffs` count: 138
+  - `eval_pipelines` count: 46
+  - Recent examples: `json-b9-1b144c`, `md-b9-4985f6` (perfect fidelity/drift given current synthetic contexts).
+
+Notes
+- Scores remain perfect due to intentionally identical context propagation; next iteration can add loss/compression/noise to reflect realistic drift and compression effects.
+
+
+
+
+
 ## 2024-10-11 - Initial Project Setup and MongoDB Atlas Connection
 
 ### Summary

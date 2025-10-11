@@ -1,9 +1,16 @@
-"""Application configuration management using Pydantic settings."""
+"""Application configuration management using Pydantic settings.
+
+Supports multiple env var names for Mongo connection strings:
+- MONGO_URI (preferred)
+- MONGO_CONNECTION_STRING (fallback)
+- MONGODB_URI (fallback)
+"""
 
 from functools import lru_cache
 from typing import Optional
 
-from pydantic import Field, field_validator
+import os
+from pydantic import Field, field_validator, AliasChoices
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,7 +18,11 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
     # MongoDB Configuration
-    mongo_uri: str = Field(..., description="MongoDB Atlas connection string")
+    mongo_uri: Optional[str] = Field(
+        default=None,
+        description="MongoDB Atlas connection string",
+        validation_alias=AliasChoices("MONGO_URI", "MONGO_CONNECTION_STRING", "MONGODB_URI"),
+    )
     mongo_database: str = Field(
         default="sample_mflix", description="Database name to use"
     )
@@ -22,6 +33,17 @@ class Settings(BaseSettings):
     # API Keys
     granite_api_key: Optional[str] = Field(default=None, description="Granite API key")
     olmo_api_key: Optional[str] = Field(default=None, description="OLMo API key")
+    fireworks_api_key: Optional[str] = Field(
+        default=None, description="Fireworks API key for judge model"
+    )
+    fireworks_model: str = Field(
+        default="accounts/fireworks/models/gpt-oss-20b",
+        description="Fireworks model identifier for judge",
+    )
+    fireworks_base_url: str = Field(
+        default="https://api.fireworks.ai/inference/v1",
+        description="Fireworks API base URL",
+    )
 
     # Application Settings
     debug: bool = Field(default=False, description="Enable debug mode")
@@ -53,6 +75,13 @@ class Settings(BaseSettings):
             raise ValueError(f"log_level must be one of {valid_levels}")
         return v_upper
 
+    # Provide a post-init hook to accept alternate env var names for Mongo
+    # connection strings (e.g., MONGO_CONNECTION_STRING, MONGODB_URI).
+    def model_post_init(self, __context: object) -> None:  # type: ignore[override]
+        # Ensure final presence
+        if not getattr(self, "mongo_uri", None):
+            raise ValueError("mongo_uri is required (MONGO_URI or MONGO_CONNECTION_STRING)")
+
 
 @lru_cache()
 def get_settings() -> Settings:
@@ -62,4 +91,3 @@ def get_settings() -> Settings:
         Settings instance loaded from environment.
     """
     return Settings()
-
