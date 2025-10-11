@@ -187,8 +187,15 @@ export default function Home() {
                 return (
                   <div
                     key={movie._id || movie.id || `movie-${idx}`}
-                    className="bg-gray-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-blue-500 transition"
+                    className="bg-gray-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-blue-500 transition relative"
                   >
+                    {/* Embedding Badge */}
+                    {movie.plot_embedding_available && (
+                      <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                        🧠 AI
+                      </div>
+                    )}
+                    
                     <div className="p-4">
                       <h3 className="font-bold text-lg mb-2 line-clamp-2">
                         {movie.title}
@@ -209,6 +216,11 @@ export default function Home() {
                         {movie.directors && movie.directors.length > 0 && (
                           <p className="text-gray-500">
                             Dir: {movie.directors[0]}
+                          </p>
+                        )}
+                        {movie.plot_embedding_available && (
+                          <p className="text-blue-400 text-xs mt-2">
+                            ✓ Has AI embeddings
                           </p>
                         )}
                       </div>
