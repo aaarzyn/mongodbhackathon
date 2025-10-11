@@ -5,19 +5,38 @@ from bson import ObjectId
 
 
 def clean_empty_values(value: Any) -> Any:
-    """Clean empty strings and convert to None.
+    """Clean empty strings and invalid data, convert to None.
     
-    MongoDB sometimes has empty strings where None would be more appropriate.
-    This function converts empty strings to None for better Pydantic validation.
+    MongoDB sometimes has empty strings or corrupted data where None would be 
+    more appropriate. This function:
+    - Converts empty strings to None
+    - Converts invalid integers/floats to None
     
     Args:
         value: Value to clean.
         
     Returns:
-        Cleaned value (None if empty string, original value otherwise).
+        Cleaned value (None if empty/invalid, original value otherwise).
     """
     if value == "":
         return None
+    
+    # Handle corrupted integer strings (e.g., '1995è')
+    if isinstance(value, str):
+        # Try to extract valid integer if string looks like it should be an int
+        try:
+            # Check if it starts with digits
+            import re
+            match = re.match(r'^(\d+)', value)
+            if match and len(match.group(1)) == len(value):
+                # It's a valid integer string, keep it
+                return value
+            elif match and len(match.group(1)) > 0:
+                # It has digits at start but garbage after, extract the int
+                return int(match.group(1))
+        except (ValueError, AttributeError):
+            pass
+    
     return value
 
 
