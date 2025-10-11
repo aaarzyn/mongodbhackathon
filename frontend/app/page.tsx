@@ -128,7 +128,7 @@ export default function Home() {
             >
               All Movies
             </button>
-            {genres.slice(0, 10).map((genre) => (
+            {genres.map((genre) => (
               <button
                 key={genre}
                 onClick={() => setSelectedGenre(genre)}
@@ -142,6 +142,9 @@ export default function Home() {
               </button>
             ))}
           </div>
+          <p className="text-sm text-gray-400 mt-2">
+            Showing {genres.length} genres • Try: Action, Fantasy, Western
+          </p>
         </div>
 
         {/* Movie Grid */}
