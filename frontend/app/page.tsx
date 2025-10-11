@@ -136,37 +136,40 @@ export default function Home() {
               {selectedGenre ? `${selectedGenre} Movies` : 'Top Rated Movies'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {movies.map((movie) => (
-                <div
-                  key={movie.id}
-                  className="bg-gray-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-blue-500 transition"
-                >
-                  <div className="p-4">
-                    <h3 className="font-bold text-lg mb-2 line-clamp-2">
-                      {movie.title}
-                    </h3>
-                    <div className="space-y-2 text-sm text-gray-400">
-                      <p>Year: {movie.year}</p>
-                      {movie.imdb_rating && (
-                        <p className="flex items-center">
-                          <span className="text-yellow-400 mr-1">★</span>
-                          {movie.imdb_rating}/10
-                        </p>
-                      )}
-                      {movie.genres.length > 0 && (
-                        <p className="text-gray-500">
-                          {movie.genres.slice(0, 3).join(', ')}
-                        </p>
-                      )}
-                      {movie.directors.length > 0 && (
-                        <p className="text-gray-500">
-                          Dir: {movie.directors[0]}
-                        </p>
-                      )}
+              {movies.map((movie, idx) => {
+                const rating = movie.imdb?.rating || movie.imdb_rating;
+                return (
+                  <div
+                    key={movie._id || movie.id || idx}
+                    className="bg-gray-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-blue-500 transition"
+                  >
+                    <div className="p-4">
+                      <h3 className="font-bold text-lg mb-2 line-clamp-2">
+                        {movie.title}
+                      </h3>
+                      <div className="space-y-2 text-sm text-gray-400">
+                        {movie.year && <p>Year: {movie.year}</p>}
+                        {rating && (
+                          <p className="flex items-center">
+                            <span className="text-yellow-400 mr-1">★</span>
+                            {rating}/10
+                          </p>
+                        )}
+                        {movie.genres && movie.genres.length > 0 && (
+                          <p className="text-gray-500">
+                            {movie.genres.slice(0, 3).join(', ')}
+                          </p>
+                        )}
+                        {movie.directors && movie.directors.length > 0 && (
+                          <p className="text-gray-500">
+                            Dir: {movie.directors[0]}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </>
         )}
