@@ -49,12 +49,13 @@ app.add_middleware(
 )
 
 # Import routers after app is created to avoid circular imports
-from backend.api.routes import movies, recommendations, users
+from backend.api.routes import embeddings, movies, recommendations, users
 
 # Include routers
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(movies.router, prefix="/api/movies", tags=["movies"])
 app.include_router(recommendations.router, prefix="/api/recommendations", tags=["recommendations"])
+app.include_router(embeddings.router, prefix="/api/embeddings", tags=["embeddings"])
 
 
 @app.get("/")

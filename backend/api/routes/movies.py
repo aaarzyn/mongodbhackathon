@@ -22,6 +22,10 @@ async def list_movies(
     director: Optional[str] = None,
     min_rating: float = 0.0,
     search: Optional[str] = None,
+    with_embeddings: bool = Query(
+        default=False,
+        description="Only return movies with embeddings (for Action, Fantasy, Western)"
+    ),
 ):
     """List movies with optional filtering.
     
@@ -32,6 +36,7 @@ async def list_movies(
         director: Filter by director.
         min_rating: Minimum IMDb rating.
         search: Search query for title.
+        with_embeddings: Only return movies with embeddings.
         
     Returns:
         List of movies.
@@ -39,8 +44,11 @@ async def list_movies(
     try:
         service = get_mflix_service()
         
+        # If with_embeddings is requested and genre is provided, use embedded_movies
+        if with_embeddings and genre:
+            movies = service.get_embedded_movies_by_genre(genre, limit=limit, skip=skip)
         # Apply filters
-        if search:
+        elif search:
             movies = service.search_movies_by_title(search, limit=limit)
         elif genre:
             movies = service.get_movies_by_genre(genre, limit=limit, skip=skip)

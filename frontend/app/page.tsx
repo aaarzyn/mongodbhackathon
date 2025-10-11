@@ -7,6 +7,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getTopRatedMovies, getGenres, getMovies, type Movie } from '@/lib/api';
+import EmbeddingModal from '@/components/EmbeddingModal';
 
 export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -15,6 +16,10 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
   const [isClient, setIsClient] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const moviesPerPage = 24;
 
   // Ensure we're only running on the client
   useEffect(() => {
@@ -31,10 +36,12 @@ export default function Home() {
   useEffect(() => {
     if (!isClient) return;
     
+    // Reset to page 1 when genre changes
+    setPage(1);
     if (selectedGenre) {
-      loadMoviesByGenre(selectedGenre);
+      loadMoviesByGenre(selectedGenre, 0);
     } else {
-      loadMovies();
+      loadMovies(0);
     }
   }, [selectedGenre, isClient]);
 
@@ -47,14 +54,15 @@ export default function Home() {
     }
   }
 
-  async function loadMovies() {
+  async function loadMovies(skip: number = 0) {
     try {
       setLoading(true);
       setError('');
-      console.log('Loading top-rated movies...');
-      const data = await getTopRatedMovies(24);
+      console.log('Loading top-rated movies, skip:', skip);
+      const data = await getTopRatedMovies(moviesPerPage);
       console.log('Received movies:', data.length);
-      setMovies(data);
+      setMovies(prev => skip === 0 ? data : [...prev, ...data]);
+      setHasMore(data.length === moviesPerPage);
     } catch (err: any) {
       const errorMsg = err?.message || 'Failed to load movies. Make sure the API is running on port 8000.';
       setError(errorMsg);
@@ -64,20 +72,32 @@ export default function Home() {
     }
   }
 
-  async function loadMoviesByGenre(genre: string) {
+  async function loadMoviesByGenre(genre: string, skip: number = 0) {
     try {
       setLoading(true);
       setError('');
-      console.log('Loading movies for genre:', genre);
-      const data = await getMovies({ genre, limit: 24 });
+      console.log('Loading movies for genre:', genre, 'skip:', skip);
+      const data = await getMovies({ genre, limit: moviesPerPage, skip });
       console.log('Received movies:', data.length);
-      setMovies(data);
+      setMovies(prev => skip === 0 ? data : [...prev, ...data]);
+      setHasMore(data.length === moviesPerPage);
     } catch (err: any) {
       const errorMsg = err?.message || `Failed to load ${genre} movies. Make sure the API is running.`;
       setError(errorMsg);
       console.error('loadMoviesByGenre error:', err);
     } finally {
       setLoading(false);
+    }
+  }
+
+  function loadMore() {
+    const skip = page * moviesPerPage;
+    setPage(prev => prev + 1);
+    
+    if (selectedGenre) {
+      loadMoviesByGenre(selectedGenre, skip);
+    } else {
+      loadMovies(skip);
     }
   }
 
@@ -187,8 +207,20 @@ export default function Home() {
                 return (
                   <div
                     key={movie._id || movie.id || `movie-${idx}`}
-                    className="bg-gray-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-blue-500 transition"
+                    className={`bg-gray-800 rounded-lg overflow-hidden hover:ring-2 transition relative ${
+                      movie.plot_embedding_available 
+                        ? 'hover:ring-blue-500 cursor-pointer' 
+                        : 'hover:ring-gray-600'
+                    }`}
+                    onClick={() => movie.plot_embedding_available && setSelectedMovie(movie)}
                   >
+                    {/* Embedding Badge */}
+                    {movie.plot_embedding_available && (
+                      <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-semibold hover:bg-blue-500 transition">
+                        🧠 AI
+                      </div>
+                    )}
+                    
                     <div className="p-4">
                       <h3 className="font-bold text-lg mb-2 line-clamp-2">
                         {movie.title}
@@ -211,15 +243,39 @@ export default function Home() {
                             Dir: {movie.directors[0]}
                           </p>
                         )}
+                        {movie.plot_embedding_available && (
+                          <p className="text-blue-400 text-xs mt-2 flex items-center gap-1">
+                            ✓ Has AI embeddings
+                            <span className="text-gray-500">• Click for details</span>
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
                 );
               })}
             </div>
+            
+            {/* Load More Button */}
+            {hasMore && !loading && !error && (
+              <div className="mt-8 text-center">
+                <button
+                  onClick={loadMore}
+                  className="bg-gray-700 hover:bg-gray-600 px-8 py-3 rounded-lg font-semibold transition"
+                >
+                  Load More Movies
+                </button>
+              </div>
+            )}
           </>
         )}
       </main>
+
+      {/* Embedding Modal */}
+      <EmbeddingModal 
+        movie={selectedMovie} 
+        onClose={() => setSelectedMovie(null)} 
+      />
     </div>
   );
 }
