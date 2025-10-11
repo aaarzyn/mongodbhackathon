@@ -5,9 +5,9 @@ from typing import List
 
 from fastapi import APIRouter, HTTPException
 
-from backend.api.app import get_mongo_client_instance
+from backend.api.dependencies import get_mflix_service
 from backend.models.user import User
-from backend.services.mflix_service import MflixService, MflixServiceError
+from backend.services.mflix_service import MflixServiceError
 
 logger = logging.getLogger(__name__)
 
@@ -26,8 +26,7 @@ async def list_users(skip: int = 0, limit: int = 10):
         List of users.
     """
     try:
-        client = get_mongo_client_instance()
-        service = MflixService(client)
+        service = get_mflix_service()
         users = service.list_users(limit=limit, skip=skip)
         return users
     except MflixServiceError as e:
@@ -46,8 +45,7 @@ async def get_user(email: str):
         User object.
     """
     try:
-        client = get_mongo_client_instance()
-        service = MflixService(client)
+        service = get_mflix_service()
         user = service.get_user_by_email(email)
         
         if not user:

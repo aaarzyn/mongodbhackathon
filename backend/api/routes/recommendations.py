@@ -12,8 +12,8 @@ from backend.agents import (
     UserProfilerAgent,
 )
 from backend.agents.base import ContextFormat
-from backend.api.app import get_mongo_client_instance
-from backend.services.mflix_service import MflixService, MflixServiceError
+from backend.api.dependencies import get_mflix_service
+from backend.services.mflix_service import MflixServiceError
 
 logger = logging.getLogger(__name__)
 
@@ -35,8 +35,7 @@ async def get_recommendations(email: str, top_n: int = 5) -> Dict:
         Recommendations with explanations and pipeline metrics.
     """
     try:
-        client = get_mongo_client_instance()
-        service = MflixService(client)
+        service = get_mflix_service()
         
         # Check if user exists
         user = service.get_user_by_email(email)
@@ -143,8 +142,7 @@ async def get_user_profile(email: str) -> Dict:
         User profile with preferences.
     """
     try:
-        client = get_mongo_client_instance()
-        service = MflixService(client)
+        service = get_mflix_service()
         
         # Check if user exists
         user = service.get_user_by_email(email)

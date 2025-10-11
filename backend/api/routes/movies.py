@@ -5,9 +5,9 @@ from typing import List, Optional
 
 from fastapi import APIRouter, HTTPException, Query
 
-from backend.api.app import get_mongo_client_instance
+from backend.api.dependencies import get_mflix_service
 from backend.models.movie import Movie
-from backend.services.mflix_service import MflixService, MflixServiceError
+from backend.services.mflix_service import MflixServiceError
 
 logger = logging.getLogger(__name__)
 
@@ -37,8 +37,7 @@ async def list_movies(
         List of movies.
     """
     try:
-        client = get_mongo_client_instance()
-        service = MflixService(client)
+        service = get_mflix_service()
         
         # Apply filters
         if search:
@@ -110,8 +109,7 @@ async def get_top_rated_movies(
         List of top-rated movies.
     """
     try:
-        client = get_mongo_client_instance()
-        service = MflixService(client)
+        service = get_mflix_service()
         movies = service.get_top_rated_movies(
             limit=limit, min_rating=min_rating, min_votes=min_votes
         )
@@ -132,8 +130,7 @@ async def get_movie(movie_id: str):
         Movie object.
     """
     try:
-        client = get_mongo_client_instance()
-        service = MflixService(client)
+        service = get_mflix_service()
         movie = service.get_movie_by_id(movie_id)
         
         if not movie:
