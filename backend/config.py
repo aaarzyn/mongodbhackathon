@@ -22,6 +22,17 @@ class Settings(BaseSettings):
     # API Keys
     granite_api_key: Optional[str] = Field(default=None, description="Granite API key")
     olmo_api_key: Optional[str] = Field(default=None, description="OLMo API key")
+    fireworks_api_key: Optional[str] = Field(
+        default=None, description="Fireworks API key for judge model"
+    )
+    fireworks_model: str = Field(
+        default="accounts/fireworks/models/gpt-oss-20b",
+        description="Fireworks model identifier for judge",
+    )
+    fireworks_base_url: str = Field(
+        default="https://api.fireworks.ai/inference/v1",
+        description="Fireworks API base URL",
+    )
 
     # Application Settings
     debug: bool = Field(default=False, description="Enable debug mode")
@@ -62,4 +73,3 @@ def get_settings() -> Settings:
         Settings instance loaded from environment.
     """
     return Settings()
-

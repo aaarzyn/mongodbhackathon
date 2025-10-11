@@ -24,6 +24,26 @@ Notes
 - Designed to operate without network access by accepting precomputed vectors and using lightweight text fallbacks.
 - Ready to be wired into agent pipeline and MongoDB persistence for eval runs.
 
+## 2025-10-11 - Judge Provider, Aggregations, and Eval Service
+
+Timestamp (UTC): 2025-10-11 20:25:16Z
+
+Summary
+- Added Fireworks judge provider stub, aggregation and persistence utilities, deterministic key-info extraction, and a high-level evaluator service.
+
+Completed Tasks
+- Provider: `backend/providers/fireworks.py` with OpenAI-compatible chat call using `FIREWORKS_API_KEY` and default model `gpt-oss-20b`.
+- Aggregations: `backend/db/aggregation.py` with insert/get helpers, rollup by format, and pipeline rollup using geometric mean for end-to-end fidelity.
+- Extraction: `backend/evaluator/extract.py` for deterministic key unit extraction from JSON/text and preservation checks.
+- Service: `backend/evaluator/service.py` to compute metrics, extract key info, and persist handoff and pipeline evaluations.
+- Config: Added Fireworks fields to `backend/config.py`.
+
+Notes
+- Chosen collections: `eval_handoffs`, `eval_pipelines`.
+- `HandoffEvaluation` now includes optional `pipeline_id` for grouping.
+- Token counts use a deterministic whitespace heuristic by default.
+
+
 ## 2024-10-11 - Initial Project Setup and MongoDB Atlas Connection
 
 ### Summary

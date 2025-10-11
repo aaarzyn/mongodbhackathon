@@ -83,6 +83,9 @@ class HandoffEvaluation(BaseModel):
     model downloads are restricted.
     """
 
+    pipeline_id: Optional[str] = Field(
+        default=None, description="Pipeline run ID for grouping"
+    )
     handoff_id: str = Field(..., description="Unique ID for the handoff")
     agent_from: str = Field(..., description="Upstream agent name")
     agent_to: str = Field(..., description="Downstream agent name")
