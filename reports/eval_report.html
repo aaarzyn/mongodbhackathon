@@ -1,0 +1,728 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'>
+<title>ContextScope Eval Report</title>
+<style>body{font-family:system-ui, -apple-system, Segoe UI, Roboto, sans-serif;padding:20px;}h1{margin-bottom:0} h2{margin-top:32px} table{border-collapse:collapse;width:100%;margin-top:8px;}th,td{border:1px solid #ddd;padding:8px;vertical-align:top;} th{background:#fafafa;text-align:left;}.score{white-space:nowrap} details{margin-top:6px} code{white-space:pre-wrap; display:block; background:#f7f7f7; padding:8px; border:1px solid #eee;}</style>
+</head><body>
+<h1>ContextScope Eval Report</h1>
+<h2>Pipeline: md-b9-1185b0</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>User: Jon Snow, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Jon Snow
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div><div><strong>Received</strong><code>User: Jon Snow
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Jon Snow, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English language…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Jon Snow
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- Back to the Future (1985) — Adventure, Comedy, Sci-Fi; Dir: Robert Zemeckis; IMDb 8.5
+- Alien (1979) — Horror, Sci-Fi; Dir: Ridley Scott; IMDb 8.5</code></div><div><strong>Received</strong><code>User: Jon Snow
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- Back to the Future (1985) — Adventure, Comedy, Sci-Fi; Dir: Robert Zemeckis; IMDb 8.5
+- Alien (1979) — Horror, Sci-Fi; Dir: Ridley Scott; IMDb 8.5</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Jon Snow, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English, Recent interests: modern sci-fi epics with strong visuals, Candidates list…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Jon Snow
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- Back to the Future (1985) — Adventure, Comedy, Sci-Fi; Dir: Robert Zemeckis; IMDb 8.5
+- Alien (1979) — Horror, Sci-Fi; Dir: Ridley Scott; IMDb 8.5
+
+Top picks:
+1. Dr. Horrible&#x27;s Sing-Along Blog
+2. Back to the Future</code></div><div><strong>Received</strong><code>User: Jon Snow
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- Back to the Future (1985) — Adventure, Comedy, Sci-Fi; Dir: Robert Zemeckis; IMDb 8.5
+- Alien (1979) — Horror, Sci-Fi; Dir: Ridley Scott; IMDb 8.5
+
+Top picks:
+1. Dr. Horrible&#x27;s Sing-Along Blog
+2. Back to the Future</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: json-b9-fd7a1a</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>user_id, profile, context_metadata, 59b99db9cfa9a34dcd7885bf, name…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_id&quot;: &quot;59b99db9cfa9a34dcd7885bf&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Jon Snow&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div><div><strong>Received</strong><code>{&quot;user_id&quot;: &quot;59b99db9cfa9a34dcd7885bf&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Jon Snow&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>user_profile_summary, primary_interests, profile_embedding, candidate_movies, movie_id…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;year&quot;: 2008, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Musical&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Unknown&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a1398f29313caabce9682&quot;, &quot;title&quot;: &quot;Back to the Future&quot;, &quot;year&quot;: 1985, &quot;genres&quot;: [&quot;Adventure&quot;, &quot;Comedy&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Robert Zemeckis&quot;, &quot;imdb_rating&quot;: 8.5, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a1397f29313caabce7084&quot;, &quot;title&quot;: &quot;Alien&quot;, &quot;year&quot;: 1979, &quot;genres&quot;: [&quot;Horror&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Ridley Scott&quot;, &quot;imdb_rating&quot;: 8.</code></div><div><strong>Received</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;year&quot;: 2008, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Musical&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Unknown&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a1398f29313caabce9682&quot;, &quot;title&quot;: &quot;Back to the Future&quot;, &quot;year&quot;: 1985, &quot;genres&quot;: [&quot;Adventure&quot;, &quot;Comedy&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Robert Zemeckis&quot;, &quot;imdb_rating&quot;: 8.5, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a1397f29313caabce7084&quot;, &quot;title&quot;: &quot;Alien&quot;, &quot;year&quot;: 1979, &quot;genres&quot;: [&quot;Horror&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Ridley Scott&quot;, &quot;imdb_rating&quot;: 8.</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>recommendations list, rank 1 movie, rank 2 movie, confidence scores, relevance factors…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a1398f29313caabce9682&quot;, &quot;title&quot;: &quot;Back to the Future&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div><div><strong>Received</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a1398f29313caabce9682&quot;, &quot;title&quot;: &quot;Back to the Future&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: md-b8-e334b3</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>User: Viserys Targaryen, Likes Sci-Fi and Drama, Prefers 2010s–2020s, Runtime ~130min, Language English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Viserys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div><div><strong>Received</strong><code>User: Viserys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Viserys Targaryen, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Viserys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7
+- Alien (1979) — Horror, Sci-Fi; Dir: Ridley Scott; IMDb 8.5</code></div><div><strong>Received</strong><code>User: Viserys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7
+- Alien (1979) — Horror, Sci-Fi; Dir: Ridley Scott; IMDb 8.5</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Viserys Targaryen, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English, Recent interests: modern sci-fi epics with strong visuals, Candidates: Dr. Horrible&#x27;s Sing-Along Blog, The Matrix, Alien…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Viserys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7
+- Alien (1979) — Horror, Sci-Fi; Dir: Ridley Scott; IMDb 8.5
+
+Top picks:
+1. Dr. Horrible&#x27;s Sing-Along Blog
+2. The Matrix</code></div><div><strong>Received</strong><code>User: Viserys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7
+- Alien (1979) — Horror, Sci-Fi; Dir: Ridley Scott; IMDb 8.5
+
+Top picks:
+1. Dr. Horrible&#x27;s Sing-Along Blog
+2. The Matrix</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: json-b8-b18db7</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>user_id, name, top_genres, director_preferences, watch_history…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_id&quot;: &quot;59b99db8cfa9a34dcd7885be&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Viserys Targaryen&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div><div><strong>Received</strong><code>{&quot;user_id&quot;: &quot;59b99db8cfa9a34dcd7885be&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Viserys Targaryen&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>user_profile_summary, candidate_movies, context_metadata, primary_interests, profile_embedding…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;year&quot;: 2008, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Musical&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Unknown&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a139bf29313caabcf3d23&quot;, &quot;title&quot;: &quot;The Matrix&quot;, &quot;year&quot;: 1999, &quot;genres&quot;: [&quot;Action&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Andy Wachowski&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a1397f29313caabce7084&quot;, &quot;title&quot;: &quot;Alien&quot;, &quot;year&quot;: 1979, &quot;genres&quot;: [&quot;Horror&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Ridley Scott&quot;, &quot;imdb_rating&quot;: 8.5, &quot;similarity_score&quot;:</code></div><div><strong>Received</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;year&quot;: 2008, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Musical&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Unknown&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a139bf29313caabcf3d23&quot;, &quot;title&quot;: &quot;The Matrix&quot;, &quot;year&quot;: 1999, &quot;genres&quot;: [&quot;Action&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Andy Wachowski&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a1397f29313caabce7084&quot;, &quot;title&quot;: &quot;Alien&quot;, &quot;year&quot;: 1979, &quot;genres&quot;: [&quot;Horror&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Ridley Scott&quot;, &quot;imdb_rating&quot;: 8.5, &quot;similarity_score&quot;:</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>recommendations list, rank 1 movie, rank 2 movie, confidence scores, relevance factors…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a139bf29313caabcf3d23&quot;, &quot;title&quot;: &quot;The Matrix&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div><div><strong>Received</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a139bf29313caabcf3d23&quot;, &quot;title&quot;: &quot;The Matrix&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: md-b7-6c3607</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>User: Petyr Baelish, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Petyr Baelish
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div><div><strong>Received</strong><code>User: Petyr Baelish
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Petyr Baelish, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Petyr Baelish
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7</code></div><div><strong>Received</strong><code>User: Petyr Baelish
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Petyr Baelish, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Petyr Baelish
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7
+
+Top picks:
+1. The Matrix
+2. Dr. Horrible&#x27;s Sing-Along Blog</code></div><div><strong>Received</strong><code>User: Petyr Baelish
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7
+- Dr. Horrible&#x27;s Sing-Along Blog (2008) — Comedy, Musical, Sci-Fi; Dir: Unknown; IMDb 8.7
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7
+
+Top picks:
+1. The Matrix
+2. Dr. Horrible&#x27;s Sing-Along Blog</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: json-b7-ffd3c6</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>user_id, name, top_genres, director_preferences, watch_history…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_id&quot;: &quot;59b99db7cfa9a34dcd7885bd&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Petyr Baelish&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div><div><strong>Received</strong><code>{&quot;user_id&quot;: &quot;59b99db7cfa9a34dcd7885bd&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Petyr Baelish&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>user_profile_summary, candidate_movies, context_metadata, primary_interests, profile_embedding…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a139bf29313caabcf3d23&quot;, &quot;title&quot;: &quot;The Matrix&quot;, &quot;year&quot;: 1999, &quot;genres&quot;: [&quot;Action&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Andy Wachowski&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;year&quot;: 2008, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Musical&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Unknown&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13b9f29313caabd4ddff&quot;, &quot;title&quot;: &quot;Interstellar&quot;, &quot;year&quot;: 2014, &quot;genres&quot;: [&quot;Adventure&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating&quot;: </code></div><div><strong>Received</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a139bf29313caabcf3d23&quot;, &quot;title&quot;: &quot;The Matrix&quot;, &quot;year&quot;: 1999, &quot;genres&quot;: [&quot;Action&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Andy Wachowski&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;year&quot;: 2008, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Musical&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Unknown&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13b9f29313caabd4ddff&quot;, &quot;title&quot;: &quot;Interstellar&quot;, &quot;year&quot;: 2014, &quot;genres&quot;: [&quot;Adventure&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating&quot;: </code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>recommendations list, rank 1: The Matrix, rank 2: Dr. Horrible&#x27;s Sing-Along Blog, confidence scores, relevance factors…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a139bf29313caabcf3d23&quot;, &quot;title&quot;: &quot;The Matrix&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div><div><strong>Received</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a139bf29313caabcf3d23&quot;, &quot;title&quot;: &quot;The Matrix&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13c1f29313caabd65988&quot;, &quot;title&quot;: &quot;Dr. Horrible&#x27;s Sing-Along Blog&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: md-b6-6adc13</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>User: Jorah Mormont, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Jorah Mormont
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div><div><strong>Received</strong><code>User: Jorah Mormont
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Jorah Mormont, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Jorah Mormont
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7</code></div><div><strong>Received</strong><code>User: Jorah Mormont
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Jorah Mormont, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English, Recent interests: modern sci-fi epics with strong visuals, Candidates: Inception, Interstellar, The Matrix…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Jorah Mormont
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7
+
+Top picks:
+1. Inception
+2. Interstellar</code></div><div><strong>Received</strong><code>User: Jorah Mormont
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7
+- The Matrix (1999) — Action, Sci-Fi; Dir: Andy Wachowski; IMDb 8.7
+
+Top picks:
+1. Inception
+2. Interstellar</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: json-b6-6a8a4c</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>user_id, name, top_genres, director_preferences, watch_history…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_id&quot;: &quot;59b99db6cfa9a34dcd7885bc&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Jorah Mormont&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div><div><strong>Received</strong><code>{&quot;user_id&quot;: &quot;59b99db6cfa9a34dcd7885bc&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Jorah Mormont&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>0.9999999999999998</td><td>1.1102230246251565e-16</td><td>0.0</td><td>1.0</td><td>user_profile_summary, candidate_movies</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13c5f29313caabd6ee61&quot;, &quot;title&quot;: &quot;Inception&quot;, &quot;year&quot;: 2010, &quot;genres&quot;: [&quot;Action&quot;, &quot;Mystery&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating&quot;: 8.8, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13b9f29313caabd4ddff&quot;, &quot;title&quot;: &quot;Interstellar&quot;, &quot;year&quot;: 2014, &quot;genres&quot;: [&quot;Adventure&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a139bf29313caabcf3d23&quot;, &quot;title&quot;: &quot;The Matrix&quot;, &quot;year&quot;: 1999, &quot;genres&quot;: [&quot;Action&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Andy Wachowski&quot;, &quot;imdb_rating&quot;: 8.7, &quot;simil</code></div><div><strong>Received</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13c5f29313caabd6ee61&quot;, &quot;title&quot;: &quot;Inception&quot;, &quot;year&quot;: 2010, &quot;genres&quot;: [&quot;Action&quot;, &quot;Mystery&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating&quot;: 8.8, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13b9f29313caabd4ddff&quot;, &quot;title&quot;: &quot;Interstellar&quot;, &quot;year&quot;: 2014, &quot;genres&quot;: [&quot;Adventure&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating&quot;: 8.7, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a139bf29313caabcf3d23&quot;, &quot;title&quot;: &quot;The Matrix&quot;, &quot;year&quot;: 1999, &quot;genres&quot;: [&quot;Action&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Andy Wachowski&quot;, &quot;imdb_rating&quot;: 8.7, &quot;simil</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>recommendations, rank, movie_id, title, confidence_score…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13c5f29313caabd6ee61&quot;, &quot;title&quot;: &quot;Inception&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13b9f29313caabd4ddff&quot;, &quot;title&quot;: &quot;Interstellar&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div><div><strong>Received</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13c5f29313caabd6ee61&quot;, &quot;title&quot;: &quot;Inception&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13b9f29313caabd4ddff&quot;, &quot;title&quot;: &quot;Interstellar&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: md-b5-68745a</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>User: Daenerys Targaryen, Likes Sci-Fi and Drama, Prefers 2010s–2020s, Runtime ~130min, Language: English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Daenerys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div><div><strong>Received</strong><code>User: Daenerys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User, Daenerys Targaryen
+Likes Sci, Fi, Drama, Prefers…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Daenerys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7</code></div><div><strong>Received</strong><code>User: Daenerys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Daenerys Targaryen, Likes: Sci-Fi, Drama, Prefers: 2010s–2020s, ~130min runtime, English, Recent interests: modern sci-fi epics with strong visuals, Candidates: Heart of a Dog, Inception, Interstellar…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Daenerys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7
+
+Top picks:
+1. Heart of a Dog
+2. Inception</code></div><div><strong>Received</strong><code>User: Daenerys Targaryen
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8
+- Interstellar (2014) — Adventure, Drama, Sci-Fi; Dir: Christopher Nolan; IMDb 8.7
+
+Top picks:
+1. Heart of a Dog
+2. Inception</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: json-b5-1da6de</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>user_id, name, top_genres, director_preferences, watch_history…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_id&quot;: &quot;59b99db6cfa9a34dcd7885bb&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Daenerys Targaryen&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div><div><strong>Received</strong><code>{&quot;user_id&quot;: &quot;59b99db6cfa9a34dcd7885bb&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Daenerys Targaryen&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>user_profile_summary, candidate_movies, context_metadata, primary_interests, profile_embedding…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a1398f29313caabceb22e&quot;, &quot;title&quot;: &quot;Heart of a Dog&quot;, &quot;year&quot;: 1988, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Vladimir Bortko&quot;, &quot;imdb_rating&quot;: 9.0, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13c5f29313caabd6ee61&quot;, &quot;title&quot;: &quot;Inception&quot;, &quot;year&quot;: 2010, &quot;genres&quot;: [&quot;Action&quot;, &quot;Mystery&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating&quot;: 8.8, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13b9f29313caabd4ddff&quot;, &quot;title&quot;: &quot;Interstellar&quot;, &quot;year&quot;: 2014, &quot;genres&quot;: [&quot;Adventure&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating</code></div><div><strong>Received</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a1398f29313caabceb22e&quot;, &quot;title&quot;: &quot;Heart of a Dog&quot;, &quot;year&quot;: 1988, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Vladimir Bortko&quot;, &quot;imdb_rating&quot;: 9.0, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13c5f29313caabd6ee61&quot;, &quot;title&quot;: &quot;Inception&quot;, &quot;year&quot;: 2010, &quot;genres&quot;: [&quot;Action&quot;, &quot;Mystery&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating&quot;: 8.8, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13b9f29313caabd4ddff&quot;, &quot;title&quot;: &quot;Interstellar&quot;, &quot;year&quot;: 2014, &quot;genres&quot;: [&quot;Adventure&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>rank 1 movie_id, rank 2 movie_id, confidence scores, relevance factors, context metadata tokens…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a1398f29313caabceb22e&quot;, &quot;title&quot;: &quot;Heart of a Dog&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13c5f29313caabd6ee61&quot;, &quot;title&quot;: &quot;Inception&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div><div><strong>Received</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a1398f29313caabceb22e&quot;, &quot;title&quot;: &quot;Heart of a Dog&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13c5f29313caabd6ee61&quot;, &quot;title&quot;: &quot;Inception&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: md-b4-4a4571</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>User: Cersei Lannister, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Cersei Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div><div><strong>Received</strong><code>User: Cersei Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Cersei Lannister, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Cersei Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8</code></div><div><strong>Received</strong><code>User: Cersei Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Cersei Lannister, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English, Recent interests: modern sci‑fi epics with strong visuals, Candidates: Another World (2015), Heart of a Dog (1988), Inception (2010)…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Cersei Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8
+
+Top picks:
+1. Another World
+2. Heart of a Dog</code></div><div><strong>Received</strong><code>User: Cersei Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0
+- Inception (2010) — Action, Mystery, Sci-Fi; Dir: Christopher Nolan; IMDb 8.8
+
+Top picks:
+1. Another World
+2. Heart of a Dog</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: json-b4-252639</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>user_id, name, top_genres, director_preferences, watch_history…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_id&quot;: &quot;59b99db6cfa9a34dcd7885ba&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Cersei Lannister&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div><div><strong>Received</strong><code>{&quot;user_id&quot;: &quot;59b99db6cfa9a34dcd7885ba&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Cersei Lannister&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>user_profile_summary, candidate_movies, context_metadata, primary_interests, profile_embedding…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13d3f29313caabd967ef&quot;, &quot;title&quot;: &quot;Another World&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Action&quot;, &quot;Horror&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Eitan Reuven&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a1398f29313caabceb22e&quot;, &quot;title&quot;: &quot;Heart of a Dog&quot;, &quot;year&quot;: 1988, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Vladimir Bortko&quot;, &quot;imdb_rating&quot;: 9.0, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13c5f29313caabd6ee61&quot;, &quot;title&quot;: &quot;Inception&quot;, &quot;year&quot;: 2010, &quot;genres&quot;: [&quot;Action&quot;, &quot;Mystery&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating&quot;: 8.</code></div><div><strong>Received</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13d3f29313caabd967ef&quot;, &quot;title&quot;: &quot;Another World&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Action&quot;, &quot;Horror&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Eitan Reuven&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a1398f29313caabceb22e&quot;, &quot;title&quot;: &quot;Heart of a Dog&quot;, &quot;year&quot;: 1988, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Vladimir Bortko&quot;, &quot;imdb_rating&quot;: 9.0, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13c5f29313caabd6ee61&quot;, &quot;title&quot;: &quot;Inception&quot;, &quot;year&quot;: 2010, &quot;genres&quot;: [&quot;Action&quot;, &quot;Mystery&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Christopher Nolan&quot;, &quot;imdb_rating&quot;: 8.</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>rank 1 movie id, rank 2 movie id, confidence scores, relevance factors, context metadata tokens…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13d3f29313caabd967ef&quot;, &quot;title&quot;: &quot;Another World&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a1398f29313caabceb22e&quot;, &quot;title&quot;: &quot;Heart of a Dog&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div><div><strong>Received</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13d3f29313caabd967ef&quot;, &quot;title&quot;: &quot;Another World&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a1398f29313caabceb22e&quot;, &quot;title&quot;: &quot;Heart of a Dog&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: md-b3-8df32a</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>User: Catelyn Stark, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Catelyn Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div><div><strong>Received</strong><code>User: Catelyn Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User, Catelyn Stark
+Likes Sci, Fi, Drama, Prefers…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Catelyn Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- OzLand (2015) — Drama, Fantasy, Sci-Fi; Dir: Michael Williams; IMDb None
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0</code></div><div><strong>Received</strong><code>User: Catelyn Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- OzLand (2015) — Drama, Fantasy, Sci-Fi; Dir: Michael Williams; IMDb None
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Catelyn Stark, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English, Recent interests: modern sci-fi epics with strong visuals, Candidates: OzLand (2015), Ad Inexplorata (2015), Heart of a Dog (1988)…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Catelyn Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- OzLand (2015) — Drama, Fantasy, Sci-Fi; Dir: Michael Williams; IMDb None
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0
+
+Top picks:
+1. OzLand
+2. Ad Inexplorata</code></div><div><strong>Received</strong><code>User: Catelyn Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- OzLand (2015) — Drama, Fantasy, Sci-Fi; Dir: Michael Williams; IMDb None
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Heart of a Dog (1988) — Comedy, Drama, Sci-Fi; Dir: Vladimir Bortko; IMDb 9.0
+
+Top picks:
+1. OzLand
+2. Ad Inexplorata</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: json-b3-dc831c</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>user_id, name, top_genres, director_preferences, watch_history…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_id&quot;: &quot;59b99db5cfa9a34dcd7885b9&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Catelyn Stark&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div><div><strong>Received</strong><code>{&quot;user_id&quot;: &quot;59b99db5cfa9a34dcd7885b9&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Catelyn Stark&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>user_profile_summary, primary_interests, profile_embedding, candidate_movies, movie_id…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13f3f29313caabddf32e&quot;, &quot;title&quot;: &quot;OzLand&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Fantasy&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Michael Williams&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Mark Elijah Rosenberg&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a1398f29313caabceb22e&quot;, &quot;title&quot;: &quot;Heart of a Dog&quot;, &quot;year&quot;: 1988, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Vladimir Bortko&quot;, &quot;imdb_rati</code></div><div><strong>Received</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13f3f29313caabddf32e&quot;, &quot;title&quot;: &quot;OzLand&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Fantasy&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Michael Williams&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Mark Elijah Rosenberg&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a1398f29313caabceb22e&quot;, &quot;title&quot;: &quot;Heart of a Dog&quot;, &quot;year&quot;: 1988, &quot;genres&quot;: [&quot;Comedy&quot;, &quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Vladimir Bortko&quot;, &quot;imdb_rati</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>recommendations, context_metadata</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13f3f29313caabddf32e&quot;, &quot;title&quot;: &quot;OzLand&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div><div><strong>Received</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13f3f29313caabddf32e&quot;, &quot;title&quot;: &quot;OzLand&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: md-b2-cfb4cf</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>User: Jaime Lannister, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Jaime Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div><div><strong>Received</strong><code>User: Jaime Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Jaime Lannister, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Jaime Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- OzLand (2015) — Drama, Fantasy, Sci-Fi; Dir: Michael Williams; IMDb None
+- Embers (2015) — Drama, Sci-Fi; Dir: Claire Carrè; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None</code></div><div><strong>Received</strong><code>User: Jaime Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- OzLand (2015) — Drama, Fantasy, Sci-Fi; Dir: Michael Williams; IMDb None
+- Embers (2015) — Drama, Sci-Fi; Dir: Claire Carrè; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Jaime Lannister, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English, Recent interests: modern sci-fi epics with strong visuals, Candidates: OzLand, Embers, Man Down…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Jaime Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- OzLand (2015) — Drama, Fantasy, Sci-Fi; Dir: Michael Williams; IMDb None
+- Embers (2015) — Drama, Sci-Fi; Dir: Claire Carrè; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None
+
+Top picks:
+1. OzLand
+2. Embers</code></div><div><strong>Received</strong><code>User: Jaime Lannister
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- OzLand (2015) — Drama, Fantasy, Sci-Fi; Dir: Michael Williams; IMDb None
+- Embers (2015) — Drama, Sci-Fi; Dir: Claire Carrè; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None
+
+Top picks:
+1. OzLand
+2. Embers</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: json-b2-9c9c9f</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>user_id, name, top_genres, director_preferences, watch_history…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_id&quot;: &quot;59b99db5cfa9a34dcd7885b8&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Jaime Lannister&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div><div><strong>Received</strong><code>{&quot;user_id&quot;: &quot;59b99db5cfa9a34dcd7885b8&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Jaime Lannister&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>user_profile_summary, candidate_movies, context_metadata, primary_interests, profile_embedding…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13f3f29313caabddf32e&quot;, &quot;title&quot;: &quot;OzLand&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Fantasy&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Michael Williams&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13edf29313caabdd325f&quot;, &quot;title&quot;: &quot;Embers&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Claire Carr\u00e8&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13ddf29313caabdb4f43&quot;, &quot;title&quot;: &quot;Man Down&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Dito Montiel&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: </code></div><div><strong>Received</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13f3f29313caabddf32e&quot;, &quot;title&quot;: &quot;OzLand&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Fantasy&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Michael Williams&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13edf29313caabdd325f&quot;, &quot;title&quot;: &quot;Embers&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Claire Carr\u00e8&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13ddf29313caabdb4f43&quot;, &quot;title&quot;: &quot;Man Down&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Dito Montiel&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: </code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>rank 1, movie_id OzLand, confidence 0.83, genre_match 0.9, director_match 0.8…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13f3f29313caabddf32e&quot;, &quot;title&quot;: &quot;OzLand&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13edf29313caabdd325f&quot;, &quot;title&quot;: &quot;Embers&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div><div><strong>Received</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13f3f29313caabddf32e&quot;, &quot;title&quot;: &quot;OzLand&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13edf29313caabdd325f&quot;, &quot;title&quot;: &quot;Embers&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: md-b1-5f6cf0</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>User: Robert Baratheon, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English language…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Robert Baratheon
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div><div><strong>Received</strong><code>User: Robert Baratheon
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Robert Baratheon, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Robert Baratheon
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None</code></div><div><strong>Received</strong><code>User: Robert Baratheon
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Robert Baratheon, Likes: Sci-Fi and Drama, Prefers: 2010s–2020s, ~130min runtime, English, Recent interests: modern sci-fi epics with strong visuals, Candidates: Another World, Ad Inexplorata, Man Down…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Robert Baratheon
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None
+
+Top picks:
+1. Another World
+2. Ad Inexplorata</code></div><div><strong>Received</strong><code>User: Robert Baratheon
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None
+
+Top picks:
+1. Another World
+2. Ad Inexplorata</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: json-b1-d4d958</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>user_id, name, top_genres, avg_runtime_preference, decade_preference…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_id&quot;: &quot;59b99db4cfa9a34dcd7885b7&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Robert Baratheon&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div><div><strong>Received</strong><code>{&quot;user_id&quot;: &quot;59b99db4cfa9a34dcd7885b7&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Robert Baratheon&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>primary_interests, profile_embedding, movie_id, title, year…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13d3f29313caabd967ef&quot;, &quot;title&quot;: &quot;Another World&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Action&quot;, &quot;Horror&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Eitan Reuven&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Mark Elijah Rosenberg&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13ddf29313caabdb4f43&quot;, &quot;title&quot;: &quot;Man Down&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Dito Montiel&quot;, &quot;imdb_rating&quot;:</code></div><div><strong>Received</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13d3f29313caabd967ef&quot;, &quot;title&quot;: &quot;Another World&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Action&quot;, &quot;Horror&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Eitan Reuven&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Mark Elijah Rosenberg&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13ddf29313caabdb4f43&quot;, &quot;title&quot;: &quot;Man Down&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Dito Montiel&quot;, &quot;imdb_rating&quot;:</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>recommendations list, rank 1 movie id, rank 2 movie id, confidence scores, relevance factors…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13d3f29313caabd967ef&quot;, &quot;title&quot;: &quot;Another World&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div><div><strong>Received</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13d3f29313caabd967ef&quot;, &quot;title&quot;: &quot;Another World&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: md-b0-7cd4d1</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>User: Ned Stark, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Ned Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div><div><strong>Received</strong><code>User: Ned Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Ned Stark, Likes: Sci-Fi, Drama, Prefers: 2010s–2020s, ~130min runtime, English, Recent interests: modern sci-fi epics with strong visuals, Candidates: Ad Inexplorata (2015)…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Ned Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None</code></div><div><strong>Received</strong><code>User: Ned Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>User: Ned Stark, Likes Sci-Fi and Drama, Prefers 2010s–2020s, ~130min runtime, English, Recent interests: modern sci-fi epics with strong visuals, Candidates: Ad Inexplorata, Man Down, Another World…</td><td>markdown</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>User: Ned Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None
+
+Top picks:
+1. Ad Inexplorata
+2. Man Down</code></div><div><strong>Received</strong><code>User: Ned Stark
+Likes Sci-Fi and Drama. Prefers 2010s–2020s, ~130min runtime, English.
+Recent interests include modern sci-fi epics with strong visuals.
+
+Candidates:
+- Ad Inexplorata (2015) — Drama, Sci-Fi, Thriller; Dir: Mark Elijah Rosenberg; IMDb None
+- Man Down (2015) — Drama, Sci-Fi, Thriller; Dir: Dito Montiel; IMDb None
+- Another World (2015) — Action, Horror, Sci-Fi; Dir: Eitan Reuven; IMDb None
+
+Top picks:
+1. Ad Inexplorata
+2. Man Down</code></div></details></td>
+</tr>
+</tbody></table>
+<h2>Pipeline: json-b0-b392b4</h2>
+<div class='score'>avg_fidelity=1.0 • avg_drift=0.0 • total_compression=0.0 • end_to_end_fidelity=1.0</div>
+<table><thead><tr><th>From → To</th><th>Fidelity</th><th>Drift</th><th>Compression</th><th>Temporal</th><th>Preserved (sample)</th><th>Format</th><th>Contexts</th></tr></thead><tbody>
+<tr>
+<td>User Profiler → Content Analyzer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>user_id, profile, context_metadata, 59b99db4cfa9a34dcd7885b6, name…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_id&quot;: &quot;59b99db4cfa9a34dcd7885b6&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Ned Stark&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div><div><strong>Received</strong><code>{&quot;user_id&quot;: &quot;59b99db4cfa9a34dcd7885b6&quot;, &quot;profile&quot;: {&quot;name&quot;: &quot;Ned Stark&quot;, &quot;top_genres&quot;: [{&quot;genre&quot;: &quot;Sci-Fi&quot;, &quot;affinity&quot;: 0.9}, {&quot;genre&quot;: &quot;Drama&quot;, &quot;affinity&quot;: 0.7}], &quot;director_preferences&quot;: [], &quot;watch_history&quot;: [], &quot;avg_runtime_preference&quot;: 130, &quot;decade_preference&quot;: [&quot;2010s&quot;, &quot;2020s&quot;], &quot;language_preference&quot;: [&quot;English&quot;]}, &quot;context_metadata&quot;: {&quot;tokens&quot;: 200, &quot;embedding_dim&quot;: 768}}</code></div></details></td>
+</tr>
+<tr>
+<td>Content Analyzer → Recommender</td><td>1.0</td><td>0.0</td><td>0.0</td><td>1.0</td><td>primary_interests, profile_embedding, movie_id, title, year…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Mark Elijah Rosenberg&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13ddf29313caabdb4f43&quot;, &quot;title&quot;: &quot;Man Down&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Dito Montiel&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13d3f29313caabd967ef&quot;, &quot;title&quot;: &quot;Another World&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Action&quot;, &quot;Horror&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Eitan Reuven&quot;, &quot;imdb_rating&quot;:</code></div><div><strong>Received</strong><code>{&quot;user_profile_summary&quot;: {&quot;primary_interests&quot;: [&quot;Sci-Fi&quot;, &quot;Drama&quot;], &quot;profile_embedding&quot;: [0.1, 0.2, 0.3]}, &quot;candidate_movies&quot;: [{&quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Mark Elijah Rosenberg&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13ddf29313caabdb4f43&quot;, &quot;title&quot;: &quot;Man Down&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Drama&quot;, &quot;Sci-Fi&quot;, &quot;Thriller&quot;], &quot;director&quot;: &quot;Dito Montiel&quot;, &quot;imdb_rating&quot;: null, &quot;similarity_score&quot;: 0.85, &quot;match_reasons&quot;: [&quot;genre_overlap&quot;, &quot;high_rating&quot;]}, {&quot;movie_id&quot;: &quot;573a13d3f29313caabd967ef&quot;, &quot;title&quot;: &quot;Another World&quot;, &quot;year&quot;: 2015, &quot;genres&quot;: [&quot;Action&quot;, &quot;Horror&quot;, &quot;Sci-Fi&quot;], &quot;director&quot;: &quot;Eitan Reuven&quot;, &quot;imdb_rating&quot;:</code></div></details></td>
+</tr>
+<tr>
+<td>Recommender → Explainer</td><td>1.0</td><td>0.0</td><td>0.0</td><td></td><td>recommendations list, rank 1 movie_id, rank 2 movie_id, confidence scores, relevance factors…</td><td>json</td>
+<td><details><summary>Show Contexts</summary><div><strong>Sent</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13ddf29313caabdb4f43&quot;, &quot;title&quot;: &quot;Man Down&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div><div><strong>Received</strong><code>{&quot;recommendations&quot;: [{&quot;rank&quot;: 1, &quot;movie_id&quot;: &quot;573a13e0f29313caabdbb1ea&quot;, &quot;title&quot;: &quot;Ad Inexplorata&quot;, &quot;confidence_score&quot;: 0.83, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}, {&quot;rank&quot;: 2, &quot;movie_id&quot;: &quot;573a13ddf29313caabdb4f43&quot;, &quot;title&quot;: &quot;Man Down&quot;, &quot;confidence_score&quot;: 0.8099999999999999, &quot;relevance_factors&quot;: {&quot;genre_match&quot;: 0.9, &quot;director_match&quot;: 0.8, &quot;rating_quality&quot;: 0.85, &quot;recency&quot;: 0.8}}], &quot;context_metadata&quot;: {&quot;tokens&quot;: 300, &quot;ranking_algorithm&quot;: &quot;weighted_hybrid&quot;}}</code></div></details></td>
+</tr>
+</tbody></table>
+</body></html>

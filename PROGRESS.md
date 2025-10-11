@@ -109,6 +109,21 @@ Notes
 
 ## 2025-10-11 - Batch Evals with Fireworks Judge
 
+## 2025-10-11 - HTML Report and Firefox Open
+
+Timestamp (UTC): 2025-10-11 20:55:18Z
+
+Summary
+- Generated a human-readable HTML report of the latest 20 pipelines and opened it in Firefox.
+
+Completed Tasks
+- Added `scripts/generate_eval_report.py` to render tables with scores, preserved key info, and collapsible context snippets.
+- Ran `python -m backend.agent_simulator --batch 10` to create fresh data and then generated `reports/eval_report.html`.
+- Opened the report via `open -a "Firefox" reports/eval_report.html`.
+
+Notes
+- Fireworks calls intermittently returned HTTP 403 (code 1010); those handoffs fell back to heuristic scores, but the report renders all records consistently.
+
 Timestamp (UTC): 2025-10-11 20:51:53Z
 
 Summary
