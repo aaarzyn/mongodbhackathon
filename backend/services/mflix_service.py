@@ -62,6 +62,11 @@ class MflixService:
     def comments_collection(self) -> Collection:
         """Get the comments collection."""
         return self.db["comments"]
+    
+    @property
+    def embedded_movies_collection(self) -> Collection:
+        """Get the embedded_movies collection with plot embeddings."""
+        return self.db["embedded_movies"]
 
     def get_user_by_id(self, user_id: str) -> Optional[User]:
         """Get a user by their ID.
@@ -419,6 +424,76 @@ class MflixService:
         except PyMongoError as e:
             logger.warning(f"Vector search failed or unavailable: {e}")
             return []
+
+    def get_embedded_movies_by_genre(
+        self, genre: str, limit: int = 20, skip: int = 0
+    ) -> list[Movie]:
+        """Get movies with embeddings by genre.
+        
+        Args:
+            genre: Genre name (e.g., "Sci-Fi", "Drama").
+            limit: Maximum number of movies to return.
+            skip: Number of movies to skip.
+            
+        Returns:
+            List of Movie objects with embeddings sorted by rating.
+            
+        Raises:
+            MflixServiceError: If database operation fails.
+        """
+        try:
+            # Query embedded_movies collection
+            cursor = (
+                self.embedded_movies_collection.find({
+                    "genres": genre,
+                    "imdb.rating": {"$ne": None, "$exists": True},
+                    "imdb.votes": {"$gt": 100},
+                })
+                .sort("imdb.rating", -1)
+                .skip(skip)
+                .limit(limit)
+            )
+            return [Movie(**convert_objectid_to_str(doc)) for doc in cursor]
+        except PyMongoError as e:
+            raise MflixServiceError(
+                f"Failed to get embedded movies by genre: {str(e)}"
+            ) from e
+    
+    def get_embedding_stats(self) -> dict:
+        """Get statistics about movies with embeddings.
+        
+        Returns:
+            Dictionary with embedding statistics.
+            
+        Raises:
+            MflixServiceError: If database operation fails.
+        """
+        try:
+            total_movies = self.movies_collection.count_documents({})
+            embedded_count = self.embedded_movies_collection.count_documents({})
+            
+            stats = {
+                "total_movies": total_movies,
+                "embedded_movies": embedded_count,
+                "embedding_coverage": round(embedded_count / total_movies * 100, 1) if total_movies > 0 else 0,
+                "genres": {},
+            }
+            
+            # Get counts by genre
+            for genre in ["Action", "Fantasy", "Western", "Sci-Fi", "Drama"]:
+                genre_total = self.movies_collection.count_documents({"genres": genre})
+                genre_embedded = self.embedded_movies_collection.count_documents({"genres": genre})
+                stats["genres"][genre] = {
+                    "total": genre_total,
+                    "with_embeddings": genre_embedded,
+                    "coverage": round(genre_embedded / genre_total * 100, 1) if genre_total > 0 else 0,
+                }
+            
+            return stats
+        except PyMongoError as e:
+            raise MflixServiceError(
+                f"Failed to get embedding stats: {str(e)}"
+            ) from e
 
     def get_database_stats(self) -> dict:
         """Get statistics about the Mflix database.

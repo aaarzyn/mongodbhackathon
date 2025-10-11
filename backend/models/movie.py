@@ -103,6 +103,12 @@ class Movie(BaseModel):
     plot_embedding: Optional[list[float]] = Field(
         default=None, description="Plot embedding vector for semantic search"
     )
+    plot_embedding_available: Optional[bool] = Field(
+        default=None, description="Whether plot embedding is available"
+    )
+    plot_embedding_voyage_3_large_available: Optional[bool] = Field(
+        default=None, description="Whether voyage_3_large embedding is available"
+    )
 
     class Config:
         populate_by_name = True

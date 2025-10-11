@@ -1,7 +1,7 @@
 """Helper functions for MongoDB operations."""
 
 from typing import Any, Dict, Optional
-from bson import ObjectId
+from bson import ObjectId, Binary
 
 
 def clean_empty_values(value: Any) -> Any:
@@ -67,6 +67,15 @@ def convert_objectid_to_str(document: Optional[Dict[str, Any]]) -> Optional[Dict
     for key, value in document.items():
         if isinstance(value, ObjectId):
             converted[key] = str(value)
+        elif isinstance(value, Binary):
+            # Skip binary embedding data or mark as has_embedding
+            # Store metadata instead of the raw binary
+            if key in ['plot_embedding', 'plot_embedding_voyage_3_large']:
+                converted[f'{key}_available'] = True
+                # Skip the actual binary data for now
+                continue
+            else:
+                converted[key] = None
         elif isinstance(value, dict):
             converted[key] = convert_objectid_to_str(value)
         elif isinstance(value, list):
